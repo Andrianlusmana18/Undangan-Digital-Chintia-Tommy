@@ -154,34 +154,5 @@ export const WEDDING_DATA = {
     phone: "0812-8890-4521",
     address: "Kampung Tapakserang RT 008 / RW 004, Desa Lenggahjaya, Kec. Cabangbungin, Kabupaten Bekasi, Jawa Barat",
   },
-  initialWishes: [
-    {
-      id: "1",
-      name: "Iliana Kusuma",
-      status: "Hadir" as const,
-      message: "Selamat menempuh babak baru kehidupan, Chintia & Tommy! Semoga cinta kasih kalian selalu diberkahi ketenangan dan kebahagiaan abadi.",
-      timeAgo: "10 menit yang lalu",
-    },
-    {
-      id: "2",
-      name: "Bimo Perkasa & Keluarga",
-      status: "Hadir" as const,
-      message: "Baarakallahu laka wa baaraka 'alaika wa jama'a bainakuma fii khoir untuk Chintia & Tommy. Sampai jumpa di hari bahagia nanti!",
-      timeAgo: "1 jam yang lalu",
-    },
-    {
-      id: "3",
-      name: "Siti & Adrian",
-      status: "Ragu" as const,
-      message: "Happy wedding Chintia & Tommy! Kami usahakan hadir, semoga seluruh rangkaian acara berjalan lancar dan penuh berkah.",
-      timeAgo: "3 jam yang lalu",
-    },
-    {
-      id: "4",
-      name: "Rizky Firmansyah",
-      status: "Hadir" as const,
-      message: "Masya Allah, selamat Tommy sahabat terbaikku & Chintia! Lancar sampai hari H ya kawan, samawa selalu!",
-      timeAgo: "5 jam yang lalu",
-    },
-  ] as WishMessage[],
+  initialWishes: [] as WishMessage[],
 };

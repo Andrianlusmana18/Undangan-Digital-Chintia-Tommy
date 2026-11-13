@@ -31,10 +31,3 @@ WITH CHECK (true);
 
 -- 5. Aktifkan Realtime agar ucapan baru langsung muncul tanpa refresh
 ALTER PUBLICATION supabase_realtime ADD TABLE public.wishes;
-
--- 6. Masukkan beberapa ucapan awal (opsional)
-INSERT INTO public.wishes (name, status, message)
-VALUES 
-  ('Iliana Kusuma', 'Hadir', 'Selamat menempuh babak baru kehidupan, Chintia & Tommy! Semoga cinta kasih kalian selalu diberkahi ketenangan dan kebahagiaan abadi.'),
-  ('Bimo Perkasa & Keluarga', 'Hadir', 'Baarakallahu laka wa baaraka ''alaika wa jama''a bainakuma fii khoir untuk Chintia & Tommy. Sampai jumpa di hari bahagia nanti!')
-ON CONFLICT DO NOTHING;
