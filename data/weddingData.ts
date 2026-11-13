@@ -70,7 +70,7 @@ export const WEDDING_DATA = {
   },
   events: {
     akad: {
-      badge: "PEMBERKATAN SUCI",
+      badge: "IKRAR SUCI",
       title: "Akad Nikah",
       date: "Sabtu, 28 November 2026",
       time: "10.00 - 11.00 WIB",
@@ -138,7 +138,7 @@ export const WEDDING_DATA = {
   bankAccounts: [
     {
       bankName: "BANK CENTRAL ASIA",
-      accountHolder: "BusTomi",
+      accountHolder: "Bustomi",
       accountNumber: "7035305424",
       logo: "BCA",
     },

@@ -9,15 +9,17 @@ interface PhotoItem {
   aspect: string;
   rotate: string;
   tape?: "top-center" | "top-left" | "top-right";
+  objectPosition?: string;
 }
 
 const PHOTOS: PhotoItem[] = [
   {
     src: "/images/couple-front.jpg",
     label: "Lamaran — Momen Bahagia",
-    aspect: "16/10",
+    aspect: "4/5",
     rotate: "-1.2deg",
     tape: "top-center",
+    objectPosition: "center 5%",
   },
   {
     src: "/images/couple-batik-1.jpg",
@@ -25,6 +27,7 @@ const PHOTOS: PhotoItem[] = [
     aspect: "3/4",
     rotate: "-2.5deg",
     tape: "top-left",
+    objectPosition: "center 12%",
   },
   {
     src: "/images/couple-batik-2.jpg",
@@ -32,27 +35,31 @@ const PHOTOS: PhotoItem[] = [
     aspect: "3/4",
     rotate: "2.2deg",
     tape: "top-right",
+    objectPosition: "center 12%",
   },
   {
     src: "/images/couple-flower.jpg",
     label: "Buket Bunga",
-    aspect: "4/3.5",
+    aspect: "3/4",
     rotate: "1.8deg",
     tape: "top-left",
+    objectPosition: "center 15%",
   },
   {
     src: "/images/couple.jpg",
     label: "Bergandengan Tangan",
-    aspect: "4/3.5",
+    aspect: "3/4",
     rotate: "-2.2deg",
     tape: "top-right",
+    objectPosition: "center 15%",
   },
   {
     src: "/images/ring-exchange.jpg",
     label: "Tukar Cincin — Ikatan Suci",
-    aspect: "16/10",
+    aspect: "4/4.5",
     rotate: "1deg",
     tape: "top-center",
+    objectPosition: "center 20%",
   },
 ];
 
@@ -75,17 +82,17 @@ function PolaroidCard({
         type="button"
         onClick={onClick}
         style={{ transform: `rotate(${photo.rotate})` }}
-        className="group relative block w-full rounded-[2px] bg-[#fbf9f5] p-[7px] pb-[24px] text-left shadow-[0_10px_24px_-6px_rgba(45,30,25,0.25),0_2px_6px_rgba(45,30,25,0.12)] ring-1 ring-[#8a6a56]/15 transition-all duration-500 ease-out hover:z-20 hover:rotate-0 hover:scale-[1.03] hover:shadow-[0_18px_36px_-8px_rgba(45,30,25,0.32)]"
+        className="group relative block w-full rounded-[2px] bg-[#fbf9f5] p-[8px] pt-[14px] pb-[22px] text-left shadow-[0_10px_24px_-6px_rgba(45,30,25,0.25),0_2px_6px_rgba(45,30,25,0.12)] ring-1 ring-[#8a6a56]/15 transition-all duration-500 ease-out hover:z-20 hover:rotate-0 hover:scale-[1.03] hover:shadow-[0_18px_36px_-8px_rgba(45,30,25,0.32)]"
       >
         {/* Washi / Masking Tape Accent */}
         {photo.tape === "top-center" && (
-          <span className="pointer-events-none absolute -top-[9px] left-1/2 z-10 h-[18px] w-[62px] -translate-x-1/2 -rotate-[1.5deg] bg-[#e6dcc8]/80 shadow-[0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-[1px]" />
+          <span className="pointer-events-none absolute -top-[7px] left-1/2 z-10 h-[18px] w-[62px] -translate-x-1/2 -rotate-[1.5deg] bg-[#e6dcc8]/80 shadow-[0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-[1px]" />
         )}
         {photo.tape === "top-left" && (
-          <span className="pointer-events-none absolute -top-[7px] left-[12px] z-10 h-[16px] w-[44px] -rotate-[14deg] bg-[#e6dcc8]/80 shadow-[0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-[1px]" />
+          <span className="pointer-events-none absolute -top-[6px] left-[14px] z-10 h-[16px] w-[44px] -rotate-[14deg] bg-[#e6dcc8]/80 shadow-[0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-[1px]" />
         )}
         {photo.tape === "top-right" && (
-          <span className="pointer-events-none absolute -top-[7px] right-[12px] z-10 h-[16px] w-[44px] rotate-[14deg] bg-[#e6dcc8]/80 shadow-[0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-[1px]" />
+          <span className="pointer-events-none absolute -top-[6px] right-[14px] z-10 h-[16px] w-[44px] rotate-[14deg] bg-[#e6dcc8]/80 shadow-[0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-[1px]" />
         )}
 
         <div className="overflow-hidden bg-[#ece6dd] ring-1 ring-[#8a6a56]/10">
@@ -95,7 +102,10 @@ function PolaroidCard({
             loading="lazy"
             decoding="async"
             className="block w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-            style={{ aspectRatio: photo.aspect }}
+            style={{
+              aspectRatio: photo.aspect,
+              objectPosition: photo.objectPosition || "center 15%",
+            }}
           />
         </div>
 

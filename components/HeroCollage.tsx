@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { WEDDING_DATA } from "@/data/weddingData";
@@ -67,8 +67,8 @@ export default function HeroCollage() {
           <div className="relative drop-shadow-[0_5px_8px_rgba(40,25,35,.25)]">
             <img src="/images/v2/rococo_frame.png" alt="" className="w-full" />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center font-corm font-semibold text-[#2a2124]" style={{ padding: `${cq(22)} ${cq(36)}`, fontSize: cq(7), lineHeight: 1.38 }}>
-              <span>&ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri supaya kamu cenderung dan merasa tentram kepadanya, dan dijadikan-Nya diantara kamu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir.&rdquo;</span>
-              <span className="mt-[3%] font-bold">(Q.S Ar-Ruum 30:21)</span>
+              <span>&ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu istri-istri dari jenismu sendiri supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya di antara kamu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir.&rdquo;</span>
+              <span className="mt-[3%] font-bold">(QS. Ar-Rum: 21)</span>
             </div>
           </div>
         </Reveal>

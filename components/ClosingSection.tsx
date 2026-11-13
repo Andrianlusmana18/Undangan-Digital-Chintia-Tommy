@@ -15,7 +15,7 @@ export default function ClosingSection() {
       <Reveal delay={0.1}>
         <h2 className="font-script mt-20 text-[38px] leading-tight text-[#2f2226]">Together With Our Families</h2>
         <p className="font-corm mx-auto mt-4 max-w-[360px] text-[18px] font-medium italic leading-snug text-[#2f2528]">
-          Merupakan kehormatan serta kebahagiaan bagi kami apabila Saudara berkenan hadir untuk memberikan doa restu kepada kedua mempelai. Atas kehadiran dan doa restunya kami ucapkan terima kasih.
+          Merupakan kehormatan serta kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai. Atas kehadiran dan doa restu Bapak/Ibu/Saudara/i, kami ucapkan terima kasih.
         </p>
         <p className="font-script mt-6 text-[44px] leading-none text-[#2f2226]">{WEDDING_DATA.bride.name} &amp; {WEDDING_DATA.groom.name}</p>
       </Reveal>

@@ -21,9 +21,9 @@ Kepada Yth. Bapak/Ibu/Saudara/i:
 
 Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada hari istimewa pernikahan kami:
 
-💍 *${WEDDING_DATA.groom.fullName}*
-&
 💍 *${WEDDING_DATA.bride.fullName}*
+&
+💍 *${WEDDING_DATA.groom.fullName}*
 
 🗓 *Hari, Tanggal:*
 ${WEDDING_DATA.general.weddingDate}
@@ -49,6 +49,6 @@ Mohon maaf atas segala keterbatasan dalam penyampaian undangan ini.
 _Wassalamu’alaikum Warahmatullahi Wabarakatuh_
 
 Hormat kami yang berbahagia,
-*${WEDDING_DATA.groom.name} & ${WEDDING_DATA.bride.name}*
+*${WEDDING_DATA.bride.name} & ${WEDDING_DATA.groom.name}*
 Beserta Keluarga Besar`;
 }
