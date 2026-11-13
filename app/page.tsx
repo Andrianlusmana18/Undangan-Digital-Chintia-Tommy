@@ -26,8 +26,8 @@ function App() {
   useEffect(() => { if (sp.get("open") === "1") setOpened(true); }, [sp]);
 
   return (
-    <div className="flex min-h-screen justify-center bg-[#dedad6]">
-      <main className="relative w-full max-w-[480px] bg-[#efedea] shadow-[0_0_40px_rgba(0,0,0,.12)]">
+    <div className={`flex min-h-screen justify-center bg-[#dedad6] ${!opened ? "h-screen overflow-hidden" : ""}`}>
+      <main className={`relative w-full max-w-[480px] bg-[#efedea] shadow-[0_0_40px_rgba(0,0,0,.12)] ${!opened ? "h-screen overflow-hidden" : ""}`}>
         {!opened ? (
           <CoverSection guestName={guest} onOpenInvitation={() => { setOpened(true); window.scrollTo({ top: 0 }); }} />
         ) : (
