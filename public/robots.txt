@@ -1,0 +1,3 @@
+# Blokir perayap mesin pencari agar data pribadi pengantin (no rek, alamat, telp) tidak terindeks di Google
+User-agent: *
+Disallow: /

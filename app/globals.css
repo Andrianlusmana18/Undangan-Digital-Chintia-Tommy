@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --paper: #efedea;
+  --ink: #2b2326;
+  --plum: #4b3441;
+  --plum-deep: #3a2632;
+  --taupe: #8a7b73;
+}
+
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+
+body {
+  background: #e9e6e2;
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', serif;
+  overflow-x: hidden;
+}
+
+/* Warm grey linen/paper texture seen in the video (fine fibres + soft mottling) */
+.paper {
+  background-color: var(--paper);
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' seed='4'/><feColorMatrix values='0 0 0 0 0.35  0 0 0 0 0.32  0 0 0 0 0.3  0 0 0 0.16 0'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.012 0.02' numOctaves='2' seed='9'/><feColorMatrix values='0 0 0 0 0.45  0 0 0 0 0.4  0 0 0 0 0.38  0 0 0 0.10 0'/></filter><rect width='600' height='600' filter='url(%23m)'/></svg>");
+}
+
+::-webkit-scrollbar { width: 0; height: 0; }
+
+.font-playfair { font-family: 'Playfair Display', serif; }
+.font-script { font-family: 'Alex Brush', 'Great Vibes', 'Pinyon Script', cursive; }
+.font-alex { font-family: 'Alex Brush', cursive; }
+.font-vibes { font-family: 'Great Vibes', cursive; }
+.font-pinyon { font-family: 'Pinyon Script', cursive; }
+.font-cinzel { font-family: 'Cinzel', serif; }
+.font-corm { font-family: 'Cormorant Garamond', serif; }
+.font-pop { font-family: 'Poppins', sans-serif; }
+.font-mont { font-family: 'Montserrat', sans-serif; }
+.font-amiri { font-family: 'Amiri', serif; }
+
+/* ---------- Staged reveal (video: elements fade/scale in one by one) ---------- */
+.rv { opacity: 0; transform: translateY(26px) scale(.96); }
+.rv.on {
+  opacity: 1; transform: none;
+  transition: opacity .9s cubic-bezier(.22,1,.36,1) var(--d,0s),
+              transform 1.1s cubic-bezier(.22,1,.36,1) var(--d,0s);
+}
+.rv-fade { opacity: 0; }
+.rv-fade.on { opacity: 1; transition: opacity 1.1s ease var(--d,0s); }
+.rv-pop { opacity: 0; transform: scale(.6) rotate(var(--r,0deg)); }
+.rv-pop.on {
+  opacity: 1; transform: scale(1) rotate(var(--r,0deg));
+  transition: opacity .6s ease var(--d,0s), transform .9s cubic-bezier(.34,1.56,.64,1) var(--d,0s);
+}
+
+/* ---------- Cover transition ---------- */
+@keyframes coverOut { to { transform: translateY(-100%); opacity: 0; } }
+.cover-out { animation: coverOut .9s cubic-bezier(.7,0,.3,1) forwards; }
+@keyframes envFloat { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-5px) } }
+.env-float { animation: envFloat 5s ease-in-out infinite; }
+
+/* ---------- Butterfly flutter ---------- */
+@keyframes flap { 0%,100% { transform: scaleX(1) } 50% { transform: scaleX(.55) } }
+@keyframes drift {
+  0%,100% { transform: translate(0,0) rotate(var(--r,0deg)); }
+  33% { transform: translate(4px,-7px) rotate(calc(var(--r,0deg) + 6deg)); }
+  66% { transform: translate(-3px,4px) rotate(calc(var(--r,0deg) - 5deg)); }
+}
+.bfly { animation: drift 6s ease-in-out infinite; }
+@keyframes wingflap { 0%,100% { transform: scaleX(1) } 50% { transform: scaleX(.42) } }
+.bfly .bf-wing { animation: wingflap .5s ease-in-out infinite; transform-box: view-box; }
+
+/* ---------- Draw-on S-curve path ---------- */
+.draw-path { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); }
+.draw-path.on { stroke-dashoffset: 0; transition: stroke-dashoffset 3.2s cubic-bezier(.45,.05,.25,1); }
+
+@keyframes shine { 0% { background-position: 150% 0 } 100% { background-position: -50% 0 } }
+
+/* embossed text on envelope */
+.emboss-w { color: #f3efec; text-shadow: 0 1px 0 rgba(0,0,0,.25); }
+
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+.animate-fadeIn { animation: fadeIn .4s ease both; }
+@keyframes spin-slow { to { transform: rotate(360deg) } }
+.animate-spin-slow { animation: spin-slow 8s linear infinite; }
+
+/* ---------- Ambient floating gold/petal motes ---------- */
+@keyframes moteFloat {
+  0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: .25; }
+  50% { transform: translateY(-22px) translateX(8px) scale(1.15); opacity: .65; }
+}
+.mote { animation: moteFloat var(--dur, 7s) ease-in-out var(--delay, 0s) infinite; }
+
+@keyframes eqBar {
+  0%, 100% { transform: scaleY(.35); }
+  50% { transform: scaleY(1); }
+}
+.eq-bar { transform-origin: bottom; animation: eqBar .75s ease-in-out infinite; }
