@@ -27,7 +27,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const audio = new Audio();
     audio.src = audioSrc;
     audio.loop = true;
-    audio.preload = "auto";
+    audio.preload = "none";
 
     // Auto-replay listener in case some browsers don't respect loop attribute
     const handleEnded = () => {

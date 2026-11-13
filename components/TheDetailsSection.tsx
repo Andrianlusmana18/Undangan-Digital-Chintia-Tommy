@@ -30,7 +30,7 @@ export default function TheDetailsSection() {
   return (
     <section className="paper relative overflow-hidden pb-16 pt-6 text-center">
       <Reveal className="mx-auto w-[56%] max-w-[260px]">
-        <img src="/images/v2/doves.png" alt="" className="w-full" />
+        <img src="/images/v2/doves.png" alt="" loading="lazy" decoding="async" className="w-full" />
       </Reveal>
       <Reveal delay={0.1}><h2 className="font-script -mt-1 text-[48px] leading-none text-[#3b2a31]"><SplitText text="The Details" animationType="word" delay={140} /></h2></Reveal>
 
@@ -47,7 +47,7 @@ export default function TheDetailsSection() {
 
         {/* Akad */}
         <Reveal className="absolute" style={{ left: "10%", top: "3.5%", width: "42%" }}>
-          <img src="/images/v2/chairs.png" alt="" className="mx-auto w-[64%]" />
+          <img src="/images/v2/chairs.png" alt="" loading="lazy" decoding="async" className="mx-auto w-[64%]" />
           <p className={label} style={{ fontSize: "8.4cqw", lineHeight: 1.1, marginTop: "1.5cqw", whiteSpace: "nowrap" }}>Akad Nikah</p>
           <p className="font-corm font-medium text-[#3a2f31]" style={{ fontSize: "3.5cqw", marginTop: "3cqw" }}>{g.akad.date}</p>
           <p className="font-corm font-medium text-[#3a2f31]" style={{ fontSize: "3.5cqw" }}>{g.akad.time}</p>
@@ -55,7 +55,7 @@ export default function TheDetailsSection() {
 
         {/* Resepsi */}
         <Reveal className="absolute" style={{ left: "52%", top: "30%", width: "42%" }}>
-          <img src="/images/v2/gazebo.png" alt="" className="mx-auto w-[62%]" />
+          <img src="/images/v2/gazebo.png" alt="" loading="lazy" decoding="async" className="mx-auto w-[62%]" />
           <p className={label} style={{ fontSize: "8.4cqw", lineHeight: 1.1, marginTop: "1cqw" }}>Resepsi</p>
           <p className="font-corm font-medium text-[#3a2f31]" style={{ fontSize: "3.5cqw", marginTop: "5cqw" }}>{g.resepsi.date}</p>
           <p className="font-corm font-medium text-[#3a2f31]" style={{ fontSize: "3.5cqw" }}>{g.resepsi.time}</p>
@@ -63,7 +63,7 @@ export default function TheDetailsSection() {
 
         {/* Lokasi */}
         <Reveal className="absolute" style={{ left: "17%", top: "63%", width: "38%" }}>
-          <img src="/images/v2/mansion.png" alt="" className="mx-auto w-full" />
+          <img src="/images/v2/mansion.png" alt="" loading="lazy" decoding="async" className="mx-auto w-full" />
           <p className={label} style={{ fontSize: "8.4cqw", lineHeight: 1.1, marginTop: "1cqw" }}>Lokasi</p>
           <p className="font-corm font-medium leading-snug text-[#3a2f31]" style={{ fontSize: "3.6cqw", marginTop: "4cqw" }}>
             {g.akad.venueName}<br />Desa Lenggahjaya, Cabangbungin, Bekasi

@@ -93,6 +93,7 @@ function PolaroidCard({
             src={photo.src}
             alt={photo.label}
             loading="lazy"
+            decoding="async"
             className="block w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
             style={{ aspectRatio: photo.aspect }}
           />
