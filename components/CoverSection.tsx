@@ -30,7 +30,7 @@ export default function CoverSection({ guestName, onOpenInvitation }: Props) {
   };
 
   return (
-    <div className={`paper relative h-[100dvh] w-full overflow-hidden text-center select-none ${leaving ? "cover-out" : ""}`}>
+    <div className={`paper relative h-[100dvh] max-h-[100dvh] w-full overflow-hidden text-center select-none touch-none overscroll-none ${leaving ? "cover-out" : ""}`}>
       {/* Warm ivory spotlight + soft vintage vignette */}
       <div
         className="pointer-events-none absolute inset-0"

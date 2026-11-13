@@ -25,9 +25,36 @@ function App() {
   useEffect(() => { if (q) setGuest(q); }, [q]);
   useEffect(() => { if (sp.get("open") === "1") setOpened(true); }, [sp]);
 
+  // Lock scrolling strictly when invitation is not yet opened
+  useEffect(() => {
+    if (!opened) {
+      document.documentElement.classList.add("lock-scroll");
+      document.body.classList.add("lock-scroll");
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.top = "0";
+      document.body.style.left = "0";
+    } else {
+      document.documentElement.classList.remove("lock-scroll");
+      document.body.classList.remove("lock-scroll");
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+    }
+    return () => {
+      document.documentElement.classList.remove("lock-scroll");
+      document.body.classList.remove("lock-scroll");
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+    };
+  }, [opened]);
+
   return (
-    <div className={`flex min-h-screen justify-center bg-[#dedad6] ${!opened ? "h-screen overflow-hidden" : ""}`}>
-      <main className={`relative w-full max-w-[480px] bg-[#efedea] shadow-[0_0_40px_rgba(0,0,0,.12)] ${!opened ? "h-screen overflow-hidden" : ""}`}>
+    <div className={`flex min-h-screen justify-center bg-[#dedad6] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}>
+      <main className={`relative w-full max-w-[480px] bg-[#efedea] shadow-[0_0_40px_rgba(0,0,0,.12)] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}>
         {!opened ? (
           <CoverSection guestName={guest} onOpenInvitation={() => { setOpened(true); window.scrollTo({ top: 0 }); }} />
         ) : (

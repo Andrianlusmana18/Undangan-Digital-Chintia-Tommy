@@ -22,6 +22,16 @@ body {
   overflow-x: hidden;
 }
 
+/* Strict scroll lock for initial cover screen */
+html.lock-scroll,
+body.lock-scroll {
+  overflow: hidden !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
+}
+
 /* 
   High-performance hardware-accelerated vintage paper texture.
   Replaces heavy CPU-bound SVG feTurbulence with smooth CSS radial tints + micro-pattern,
