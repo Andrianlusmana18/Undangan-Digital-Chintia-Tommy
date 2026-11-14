@@ -3,6 +3,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { AudioProvider } from "@/context/AudioContext";
+import DoveIntroOverlay from "@/components/DoveIntroOverlay";
 import CoverSection from "@/components/CoverSection";
 import HeroCollage from "@/components/HeroCollage";
 import CountdownSection from "@/components/CountdownSection";
@@ -19,13 +20,40 @@ import { ScrollProgressAndNav } from "@/components/LuxuryChrome";
 function App() {
   const sp = useSearchParams();
   const q = sp.get("to") || sp.get("u") || sp.get("guest") || "";
+  const openParam = sp.get("open") === "1";
   const [guest, setGuest] = useState("");
-  const [opened, setOpened] = useState(false);
+  const [stage, setStage] = useState<"cover" | "doves" | "open">(openParam ? "open" : "cover");
+  const [keepCover, setKeepCover] = useState(!openParam);
+  const coverTimerRef = React.useRef<number | null>(null);
+  const opened = stage === "open";
 
   useEffect(() => { if (q) setGuest(q); }, [q]);
-  useEffect(() => { if (sp.get("open") === "1") setOpened(true); }, [sp]);
+  useEffect(() => {
+    if (openParam) {
+      setStage("open");
+      setKeepCover(false);
+    }
+  }, [openParam]);
 
-  // Lock scrolling strictly when invitation is not yet opened
+  useEffect(() => {
+    return () => {
+      if (coverTimerRef.current) window.clearTimeout(coverTimerRef.current);
+    };
+  }, []);
+
+  const handleOpenInvitation = () => {
+    setStage("doves");
+    if (coverTimerRef.current) window.clearTimeout(coverTimerRef.current);
+    coverTimerRef.current = window.setTimeout(() => setKeepCover(false), 450);
+  };
+
+  const handleDovesComplete = () => {
+    if (coverTimerRef.current) window.clearTimeout(coverTimerRef.current);
+    setKeepCover(false);
+    setStage("open");
+  };
+
+  // Lock scrolling strictly on cover and during the 2s grand-reveal transition
   useEffect(() => {
     if (!opened) {
       document.documentElement.classList.add("lock-scroll");
@@ -61,9 +89,8 @@ function App() {
         style={{ colorScheme: "only light" }}
         className={`relative w-full max-w-[480px] bg-[#eae1d7] shadow-[0_0_50px_rgba(38,24,28,.18)] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}
       >
-        {!opened ? (
-          <CoverSection guestName={guest} onOpenInvitation={() => { setOpened(true); window.scrollTo({ top: 0 }); }} />
-        ) : (
+        {/* Invitation content mounts immediately when clicked so doves & silk curtains unveil HeroCollage directly */}
+        {stage !== "cover" && (
           <>
             <div id="sec-hero"><HeroCollage /></div>
             <CountdownSection />
@@ -76,8 +103,20 @@ function App() {
             <ClosingSection />
           </>
         )}
+
+        {/* Envelope cover layer (full interactive on cover stage, softly fades out over 0.42s when opened) */}
+        {keepCover && (
+          <div className={stage === "cover" ? "relative h-[100dvh] w-full overflow-hidden" : "pointer-events-none absolute inset-0 z-20 h-[100dvh] w-full overflow-hidden"}>
+            <CoverSection guestName={guest} onOpenInvitation={handleOpenInvitation} />
+          </div>
+        )}
+
+        {/* Transparent 2-second silk veil + parting doves + golden sparkles unveiling HeroCollage */}
+        {stage === "doves" && (
+          <DoveIntroOverlay onComplete={handleDovesComplete} />
+        )}
       </main>
-      {opened && (
+      {stage !== "cover" && (
         <>
           <ScrollProgressAndNav />
           <AudioButton />

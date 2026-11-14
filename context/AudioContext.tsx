@@ -29,20 +29,27 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     audio.loop = true;
     audio.preload = "none";
 
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+
     // Auto-replay listener in case some browsers don't respect loop attribute
     const handleEnded = () => {
       try {
         audio.currentTime = 0;
-        audio.play().then(() => setIsPlaying(true)).catch(() => {});
+        audio.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
       } catch (err) {
         console.log("Audio loop retry error:", err);
       }
     };
 
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
     audio.addEventListener("ended", handleEnded);
     audioRef.current = audio;
 
     return () => {
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("ended", handleEnded);
       audio.pause();
       audio.src = "";

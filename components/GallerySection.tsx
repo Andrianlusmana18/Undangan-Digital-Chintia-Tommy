@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Reveal from "@/components/Reveal";
 import { EditorialDivider, EditorialFrame } from "@/components/LuxuryChrome";
 
@@ -121,6 +121,22 @@ function PolaroidCard({
 export default function GallerySection() {
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
 
+  useEffect(() => {
+    if (activeIdx === null) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActiveIdx(null);
+      else if (e.key === "ArrowLeft") setActiveIdx((cur) => (cur === null ? null : (cur - 1 + PHOTOS.length) % PHOTOS.length));
+      else if (e.key === "ArrowRight") setActiveIdx((cur) => (cur === null ? null : (cur + 1) % PHOTOS.length));
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [activeIdx !== null]);
+
   const step = (dir: number, e: React.MouseEvent) => {
     e.stopPropagation();
     if (activeIdx === null) return;
@@ -228,9 +244,20 @@ export default function GallerySection() {
       {/* Lightbox Modal */}
       {activeIdx !== null && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Pratinjau foto galeri"
           onClick={() => setActiveIdx(null)}
           className="animate-fadeIn fixed inset-0 z-[60] flex flex-col items-center justify-center bg-black/88 p-4 backdrop-blur-sm"
         >
+          <button
+            type="button"
+            onClick={() => setActiveIdx(null)}
+            aria-label="Tutup pratinjau"
+            className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition hover:bg-white/25"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M18 6 6 18M6 6l12 12" /></svg>
+          </button>
           <div className="relative flex max-w-[440px] items-center justify-center">
             <img
               src={PHOTOS[activeIdx].src}
@@ -239,6 +266,7 @@ export default function GallerySection() {
               className="max-h-[78vh] max-w-full rounded-[2px] border-[6px] border-[#fbf9f5] object-contain shadow-2xl"
             />
             <button
+              type="button"
               onClick={(e) => step(-1, e)}
               aria-label="Foto sebelumnya"
               className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-2 text-white backdrop-blur-sm transition hover:bg-black/80"
@@ -246,6 +274,7 @@ export default function GallerySection() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="m15 18-6-6 6-6" /></svg>
             </button>
             <button
+              type="button"
               onClick={(e) => step(1, e)}
               aria-label="Foto berikutnya"
               className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/55 p-2 text-white backdrop-blur-sm transition hover:bg-black/80"

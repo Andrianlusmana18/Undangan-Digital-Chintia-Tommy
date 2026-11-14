@@ -7,7 +7,9 @@ interface ShinyTextProps {
   text?: string;
   disabled?: boolean;
   speed?: number; // duration in seconds
+  delay?: number; // optional initial animation delay in seconds
   className?: string;
+  baseColor?: string;
   shimmerColor?: string;
 }
 
@@ -20,8 +22,10 @@ export default function ShinyText({
   text,
   disabled = false,
   speed = 4.5,
+  delay = 0,
   className = "",
-  shimmerColor = "rgba(255, 235, 185, 0.95)",
+  baseColor = "currentColor",
+  shimmerColor = "rgba(212, 168, 96, 0.98)",
 }: ShinyTextProps) {
   const content = text || children;
 
@@ -31,13 +35,13 @@ export default function ShinyText({
 
   return (
     <span
-      className={`inline-block relative overflow-hidden bg-clip-text text-transparent select-none ${className}`}
+      className={`inline-block bg-clip-text select-none ${className}`}
       style={{
-        backgroundImage: `linear-gradient(110deg, currentColor 0%, currentColor 36%, ${shimmerColor} 50%, currentColor 64%, currentColor 100%)`,
-        backgroundSize: "220% 100%",
+        backgroundImage: `linear-gradient(110deg, ${baseColor} 0%, ${baseColor} 42%, ${shimmerColor} 50%, ${baseColor} 58%, ${baseColor} 100%)`,
+        backgroundSize: "250% 100%",
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
-        animation: `shiny-sweep ${speed}s ease-in-out infinite`,
+        animation: `shiny-sweep ${speed}s ease-in-out ${delay}s infinite`,
       }}
     >
       {content}

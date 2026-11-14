@@ -2,16 +2,27 @@
 
 import React, { useState } from "react";
 import { WEDDING_DATA } from "@/data/weddingData";
+import { copyToClipboard } from "@/lib/clipboard";
 import Reveal from "@/components/Reveal";
 import ButterflySvg from "@/components/Butterfly";
 import { EditorialFrame } from "@/components/LuxuryChrome";
 
 export default function WeddingGiftSection() {
   const [copied, setCopied] = useState<number | null>(null);
+  const copyTimerRef = React.useRef<number | null>(null);
 
-  const copy = (txt: string, i: number) => {
-    navigator.clipboard?.writeText(txt.replace(/[^0-9]/g, ""));
-    setCopied(i); setTimeout(() => setCopied(null), 2200);
+  React.useEffect(() => {
+    return () => {
+      if (copyTimerRef.current) window.clearTimeout(copyTimerRef.current);
+    };
+  }, []);
+
+  const copy = async (txt: string, i: number) => {
+    const ok = await copyToClipboard(txt.replace(/[^0-9]/g, ""));
+    if (!ok) return;
+    setCopied(i);
+    if (copyTimerRef.current) window.clearTimeout(copyTimerRef.current);
+    copyTimerRef.current = window.setTimeout(() => setCopied(null), 2200);
   };
 
   return (

@@ -20,6 +20,11 @@ function getClientIp(req: NextRequest): string {
   );
 }
 
+function isHttpsRequest(req: NextRequest): boolean {
+  const proto = req.headers.get("x-forwarded-proto") || req.nextUrl.protocol.replace(/:$/, "");
+  return proto === "https";
+}
+
 function signData(payload: string): string {
   const sig = crypto.createHmac("sha256", AUTH_SECRET).update(payload).digest("hex");
   return `${payload}.${sig}`;
@@ -31,7 +36,11 @@ function verifySignedData(token?: string): string | null {
   const payload = token.slice(0, lastDot);
   const sig = token.slice(lastDot + 1);
   const expected = crypto.createHmac("sha256", AUTH_SECRET).update(payload).digest("hex");
-  if (sig !== expected) return null;
+  const sigBuf = Buffer.from(sig, "utf8");
+  const expectedBuf = Buffer.from(expected, "utf8");
+  if (sigBuf.length !== expectedBuf.length || !crypto.timingSafeEqual(sigBuf, expectedBuf)) {
+    return null;
+  }
   return payload;
 }
 
@@ -118,7 +127,7 @@ export async function POST(req: NextRequest) {
       res.cookies.delete(ATTEMPT_COOKIE);
       res.cookies.set(COOKIE_NAME, token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: isHttpsRequest(req),
         sameSite: "lax",
         path: "/",
         maxAge: 7 * 24 * 60 * 60,
@@ -151,7 +160,7 @@ export async function POST(req: NextRequest) {
 
     res.cookies.set(ATTEMPT_COOKIE, signedAttempt, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: isHttpsRequest(req),
       sameSite: "lax",
       path: "/",
       maxAge: 15 * 60, // 15 menit

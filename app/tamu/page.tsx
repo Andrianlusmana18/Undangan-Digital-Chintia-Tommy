@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { WEDDING_DATA } from "@/data/weddingData";
+import { copyToClipboard } from "@/lib/clipboard";
 import { buildWhatsAppMessage, formatGuestUrl } from "@/lib/whatsappMessage";
 
 function cleanPhone(num: string): string {
@@ -103,15 +104,17 @@ export default function GuestLinkGeneratorPage() {
   const guestLink = formatGuestUrl(baseUrl, guestNameClean);
   const waTemplate = buildWhatsAppMessage(guestNameClean, guestLink);
 
-  const copyText = (txt: string, type: "link" | "message") => {
-    navigator.clipboard?.writeText(txt);
+  const copyText = async (txt: string, type: "link" | "message" | "bulk"): Promise<boolean> => {
+    const ok = await copyToClipboard(txt);
+    if (!ok) return false;
     if (type === "link") {
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 2000);
-    } else {
+    } else if (type === "message") {
       setCopiedMessage(true);
       setTimeout(() => setCopiedMessage(false), 2000);
     }
+    return true;
   };
 
   const openWhatsApp = (tamuName: string, tamuPhone?: string) => {
@@ -432,10 +435,11 @@ export default function GuestLinkGeneratorPage() {
                       </button>
 
                       <button
-                        onClick={() => {
-                          copyText(item.msg, "message");
-                          setCopiedBulkIdx(idx);
-                          setTimeout(() => setCopiedBulkIdx(null), 1800);
+                        onClick={async () => {
+                          if (await copyText(item.msg, "bulk")) {
+                            setCopiedBulkIdx(idx);
+                            setTimeout(() => setCopiedBulkIdx(null), 1800);
+                          }
                         }}
                         className="font-pop rounded-lg border border-[#8b6a56]/40 bg-white px-2.5 py-1.5 text-[11px] font-medium text-[#4b3441] transition hover:bg-[#f6efe9] active:scale-95"
                       >

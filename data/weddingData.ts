@@ -35,6 +35,7 @@ export interface WishMessage {
   status: "Hadir" | "Ragu" | "Maaf";
   message: string;
   timeAgo: string;
+  createdAt?: string;
 }
 
 export const WEDDING_DATA = {
@@ -120,19 +121,19 @@ export const WEDDING_DATA = {
       year: "2025",
       title: "Menjalin Komitmen",
       date: "Kemantapan Hati",
-      description: "Tak butuh waktu lama untuk memantapkan hati. Kesamaan niat dan ketulusan menuntun kami untuk langsung saling mengikat komitmen.",
+      description: "Tak butuh waktu lama untuk memantapkan hati. Kesamaan niat dan ketulusan menuntun langkah kami untuk saling mengikat komitmen, melangkah bersama penuh keyakinan.",
     },
     {
       year: "2025",
-      title: "Resepsi Lamaran",
-      date: "Pertunangan",
-      description: "Hanya berselang waktu singkat dari awal bertemu, niat tulus berbuah manis dengan prosesi lamaran resmi di hadapan keluarga besar.",
+      title: "Hari Lamaran",
+      date: "Prosesi Lamaran Resmi",
+      description: "Dikelilingi kehangatan keluarga tercinta, niat tulus kami diwujudkan dalam ikatan lamaran resmi yang semakin mengukuhkan tekad menuju jenjang pernikahan.",
     },
     {
       year: "2026",
-      title: "Menuju Pernikahan",
+      title: "Menuju Pelaminan",
       date: "28 November 2026",
-      description: "Dengan penuh rasa syukur dan doa restu kedua orang tua, kami siap mengikrarkan akad suci pernikahan sehidup sesurga.",
+      description: "Kini perjalanan cinta kami bermuara di gerbang pernikahan. Dengan ridho Allah SWT serta doa restu orang tua, kami siap mengikrarkan akad suci bersama selamanya.",
     },
   ],
   bankAccounts: [

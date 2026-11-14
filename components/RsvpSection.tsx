@@ -30,6 +30,7 @@ export default function RsvpSection({ initialGuestName = "" }: { initialGuestNam
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState(false);
+  const [formError, setFormError] = useState("");
   const [cooldown, setCooldown] = useState(0);
 
   // Anti-spam cooldown timer
@@ -59,6 +60,7 @@ export default function RsvpSection({ initialGuestName = "" }: { initialGuestNam
             name: item.name,
             status: item.status as WishMessage["status"],
             message: item.message,
+            createdAt: item.created_at,
             timeAgo: formatTimeAgo(item.created_at),
           }));
           setWishes(formatted);
@@ -74,7 +76,14 @@ export default function RsvpSection({ initialGuestName = "" }: { initialGuestNam
       const s = localStorage.getItem("chintia_wedding_wishes");
       if (s) {
         const p = JSON.parse(s);
-        if (Array.isArray(p) && p.length) setWishes(p);
+        if (Array.isArray(p) && p.length) {
+          setWishes(
+            p.map((item: WishMessage) => ({
+              ...item,
+              timeAgo: item.createdAt ? formatTimeAgo(item.createdAt) : item.timeAgo || "Baru saja",
+            }))
+          );
+        }
       }
     } catch {}
   }, []);
@@ -98,6 +107,7 @@ export default function RsvpSection({ initialGuestName = "" }: { initialGuestNam
                 name: newItem.name,
                 status: newItem.status as WishMessage["status"],
                 message: newItem.message,
+                createdAt: newItem.created_at,
                 timeAgo: "Baru saja",
               };
               setWishes((prev) => {
@@ -117,31 +127,55 @@ export default function RsvpSection({ initialGuestName = "" }: { initialGuestNam
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !status || !message.trim() || submitting || cooldown > 0) return;
+    if (submitting || cooldown > 0) return;
 
     // Sanitasi dan batas karakter
     const cleanName = name.trim().slice(0, 60);
     const cleanMsg = message.trim().slice(0, 350);
+
+    if (!status) {
+      setFormError("Silakan pilih status kehadiran terlebih dahulu.");
+      return;
+    }
+    if (cleanName.length < 2 || cleanMsg.length < 2) {
+      setFormError("Nama dan ucapan doa minimal terdiri dari 2 huruf.");
+      return;
+    }
+
+    setFormError("");
     const validStatus = ["Hadir", "Ragu", "Maaf"].includes(status)
       ? (status as WishMessage["status"])
       : "Hadir";
-
-    if (cleanName.length < 2 || cleanMsg.length < 2) return;
 
     setSubmitting(true);
 
     try {
       if (isSupabaseConfigured && supabase) {
-        const { error } = await supabase.from("wishes").insert([
-          {
-            name: cleanName,
-            status: validStatus,
-            message: cleanMsg,
-          },
-        ]);
+        const { data, error } = await supabase
+          .from("wishes")
+          .insert([
+            {
+              name: cleanName,
+              status: validStatus,
+              message: cleanMsg,
+            },
+          ])
+          .select()
+          .single();
+
         if (error) {
           console.error("Supabase insert error:", error);
           saveLocal(cleanName, validStatus, cleanMsg);
+        } else if (data) {
+          const inserted: WishMessage = {
+            id: String(data.id),
+            name: data.name,
+            status: data.status as WishMessage["status"],
+            message: data.message,
+            createdAt: data.created_at,
+            timeAgo: "Baru saja",
+          };
+          setWishes((prev) => (prev.some((w) => w.id === inserted.id) ? prev : [inserted, ...prev]));
         }
       } else {
         saveLocal(cleanName, validStatus, cleanMsg);
@@ -160,14 +194,22 @@ export default function RsvpSection({ initialGuestName = "" }: { initialGuestNam
   };
 
   const saveLocal = (n: string, s: WishMessage["status"], m: string) => {
-    const next: WishMessage[] = [
-      { id: String(Date.now()), name: n, status: s, message: m, timeAgo: "Baru saja" },
-      ...wishes,
-    ];
-    setWishes(next);
-    try {
-      localStorage.setItem("chintia_wedding_wishes", JSON.stringify(next));
-    } catch {}
+    const nowIso = new Date().toISOString();
+    const item: WishMessage = {
+      id: String(Date.now()),
+      name: n,
+      status: s,
+      message: m,
+      createdAt: nowIso,
+      timeAgo: "Baru saja",
+    };
+    setWishes((prev) => {
+      const next = [item, ...prev];
+      try {
+        localStorage.setItem("chintia_wedding_wishes", JSON.stringify(next));
+      } catch {}
+      return next;
+    });
   };
 
   return (
@@ -186,14 +228,25 @@ export default function RsvpSection({ initialGuestName = "" }: { initialGuestNam
               className={field}
               value={name}
               maxLength={60}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (formError) setFormError("");
+              }}
               placeholder="Nama Anda (Maks. 60 huruf)"
               required
             />
           </div>
           <div>
             <label className={lbl}>Kehadiran</label>
-            <select className={field} value={status} onChange={(e) => setStatus(e.target.value)} required>
+            <select
+              className={field}
+              value={status}
+              onChange={(e) => {
+                setStatus(e.target.value);
+                if (formError) setFormError("");
+              }}
+              required
+            >
               <option value="" disabled>Pilih salah satu</option>
               <option value="Hadir">Hadir</option>
               <option value="Ragu">Masih Ragu</option>
@@ -213,10 +266,18 @@ export default function RsvpSection({ initialGuestName = "" }: { initialGuestNam
               className={`${field} font-mono`}
               placeholder="Tulis ucapan atau doa..."
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e) => {
+                setMessage(e.target.value);
+                if (formError) setFormError("");
+              }}
               required
             />
           </div>
+          {formError && (
+            <p className="animate-fadeIn text-center text-[12px] font-medium text-[#8b2626]">
+              {formError}
+            </p>
+          )}
           <button
             type="submit"
             disabled={submitting || cooldown > 0}
