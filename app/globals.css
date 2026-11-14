@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: only light !important;
+  supported-color-schemes: only light light !important;
   --paper: #efedea;
   --ink: #2b2326;
   --plum: #4b3441;
@@ -11,15 +13,30 @@
 }
 
 html { 
+  color-scheme: only light !important;
+  supported-color-schemes: only light light !important;
   scroll-behavior: smooth; 
   -webkit-tap-highlight-color: transparent; 
+  forced-color-adjust: none;
 }
 
 body {
-  background: #e9e6e2;
-  color: var(--ink);
+  color-scheme: only light !important;
+  supported-color-schemes: only light light !important;
+  background-color: #e9e6e2 !important;
+  color: #2b2326 !important;
   font-family: 'Cormorant Garamond', serif;
   overflow-x: hidden;
+  forced-color-adjust: none;
+}
+
+/* Explicitly disable forced dark mode / color inversion for all mobile & desktop browsers */
+@media (prefers-color-scheme: dark) {
+  :root, html, body {
+    color-scheme: only light !important;
+    background-color: #e9e6e2 !important;
+    color: #2b2326 !important;
+  }
 }
 
 /* Strict scroll lock for initial cover screen */

@@ -53,8 +53,14 @@ function App() {
   }, [opened]);
 
   return (
-    <div className={`flex min-h-screen justify-center bg-[#dedad6] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}>
-      <main className={`relative w-full max-w-[480px] bg-[#efedea] shadow-[0_0_40px_rgba(0,0,0,.12)] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}>
+    <div
+      style={{ colorScheme: "only light" }}
+      className={`flex min-h-screen justify-center bg-[#dedad6] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}
+    >
+      <main
+        style={{ colorScheme: "only light" }}
+        className={`relative w-full max-w-[480px] bg-[#efedea] shadow-[0_0_40px_rgba(0,0,0,.12)] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}
+      >
         {!opened ? (
           <CoverSection guestName={guest} onOpenInvitation={() => { setOpened(true); window.scrollTo({ top: 0 }); }} />
         ) : (

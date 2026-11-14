@@ -1,5 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  themeColor: "#efedea",
+  colorScheme: "only light",
+};
 
 export const metadata: Metadata = {
   title: "The Wedding of Chintia & Tommy",
@@ -19,12 +24,20 @@ export const metadata: Metadata = {
     description: "Sabtu, 28 November 2026 - Undangan Pernikahan Digital",
     type: "website",
   },
+  other: {
+    "color-scheme": "only light",
+    "supported-color-schemes": "only light light",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="id">
+    <html lang="id" style={{ colorScheme: "only light" }}>
       <head>
+        <meta name="color-scheme" content="only light" />
+        <meta name="supported-color-schemes" content="only light light" />
+        <meta name="theme-color" content="#efedea" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -32,7 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased min-h-screen">{children}</body>
+      <body className="antialiased min-h-screen" style={{ colorScheme: "only light" }}>{children}</body>
     </html>
   );
 }
