@@ -6,6 +6,7 @@ interface AudioContextType {
   isPlaying: boolean;
   togglePlay: () => void;
   playAudio: () => void;
+  playAudioWithFade: (delayMs?: number, fadeDurationMs?: number) => void;
   pauseAudio: () => void;
   restartAndPlayAudio: () => void;
   stopAndResetAudio: () => void;
@@ -19,6 +20,19 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const fadeTimerRef = useRef<number | null>(null);
+  const fadeRafRef = useRef<number | null>(null);
+
+  const cancelFade = useCallback(() => {
+    if (fadeTimerRef.current !== null) {
+      window.clearTimeout(fadeTimerRef.current);
+      fadeTimerRef.current = null;
+    }
+    if (fadeRafRef.current !== null) {
+      window.cancelAnimationFrame(fadeRafRef.current);
+      fadeRafRef.current = null;
+    }
+  }, []);
 
   useEffect(() => {
     // Standard clean path for reliable hosting CDN delivery
@@ -48,16 +62,19 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     audioRef.current = audio;
 
     return () => {
+      cancelFade();
       audio.removeEventListener("play", handlePlay);
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("ended", handleEnded);
       audio.pause();
       audio.src = "";
     };
-  }, []);
+  }, [cancelFade]);
 
   const playAudio = useCallback(() => {
+    cancelFade();
     if (audioRef.current) {
+      audioRef.current.volume = 1;
       audioRef.current
         .play()
         .then(() => {
@@ -68,10 +85,55 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
           console.log("Audio autoplay prevented by browser:", err);
         });
     }
-  }, []);
+  }, [cancelFade]);
+
+  const playAudioWithFade = useCallback(
+    (delayMs = 550, fadeDurationMs = 2000) => {
+      cancelFade();
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      // Unlock playback inside user click gesture at zero volume, then swell softly
+      audio.volume = 0;
+      audio
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+          setHasInteracted(true);
+        })
+        .catch((err) => {
+          console.log("Audio autoplay prevented by browser:", err);
+        });
+
+      fadeTimerRef.current = window.setTimeout(() => {
+        fadeTimerRef.current = null;
+        const start = performance.now();
+        const step = (now: number) => {
+          const target = audioRef.current;
+          if (!target || target.paused) {
+            fadeRafRef.current = null;
+            return;
+          }
+          const progress = Math.min(1, (now - start) / Math.max(1, fadeDurationMs));
+          // Smooth gentle swell curve
+          target.volume = Math.min(1, 1 - Math.pow(1 - progress, 2.2));
+          if (progress < 1) {
+            fadeRafRef.current = window.requestAnimationFrame(step);
+          } else {
+            target.volume = 1;
+            fadeRafRef.current = null;
+          }
+        };
+        fadeRafRef.current = window.requestAnimationFrame(step);
+      }, delayMs);
+    },
+    [cancelFade]
+  );
 
   const restartAndPlayAudio = useCallback(() => {
+    cancelFade();
     if (audioRef.current) {
+      audioRef.current.volume = 1;
       try {
         audioRef.current.currentTime = 0;
       } catch (e) {
@@ -87,16 +149,19 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
           console.log("Audio autoplay prevented by browser:", err);
         });
     }
-  }, []);
+  }, [cancelFade]);
 
   const pauseAudio = useCallback(() => {
+    cancelFade();
     if (audioRef.current) {
       audioRef.current.pause();
+      audioRef.current.volume = 1;
       setIsPlaying(false);
     }
-  }, []);
+  }, [cancelFade]);
 
   const stopAndResetAudio = useCallback(() => {
+    cancelFade();
     if (audioRef.current) {
       audioRef.current.pause();
       try {
@@ -104,9 +169,13 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       } catch (e) {
         console.log("Audio reset:", e);
       }
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.volume = 1;
+      }
       setIsPlaying(false);
     }
-  }, []);
+  }, [cancelFade]);
 
   const togglePlay = useCallback(() => {
     if (isPlaying) {
@@ -122,6 +191,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         isPlaying,
         togglePlay,
         playAudio,
+        playAudioWithFade,
         pauseAudio,
         restartAndPlayAudio,
         stopAndResetAudio,

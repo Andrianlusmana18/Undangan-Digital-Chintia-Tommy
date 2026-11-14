@@ -13,11 +13,11 @@ const YOURE_CHARS = ["Y", "O", "U", "'", "R", "E"];
 
 export default function CoverSection({ guestName, onOpenInvitation }: Props) {
   const [leaving, setLeaving] = useState(false);
-  const { playAudio } = useAudio();
+  const { playAudioWithFade } = useAudio();
 
   const open = () => {
     if (leaving) return;
-    playAudio();
+    playAudioWithFade(550, 2000);
     setLeaving(true);
     onOpenInvitation();
   };
@@ -108,7 +108,7 @@ export default function CoverSection({ guestName, onOpenInvitation }: Props) {
               </span>
             ))}
           </h2>
-          <h1 className="font-script -mt-3 translate-x-2 -rotate-[3deg] px-4 text-[64px] leading-none text-[#1d1819]">
+          <h1 className="font-script -mt-1 translate-x-2 -rotate-[3deg] px-4 text-[64px] leading-none text-[#1d1819]">
             <span className="cover-script-in inline-block px-3 -mx-3" style={{ ["--cd" as string]: "0.42s" }}>
               <ShinyText
                 baseColor="#1d1819"

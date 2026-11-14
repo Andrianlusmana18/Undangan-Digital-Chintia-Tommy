@@ -97,12 +97,12 @@ export default function HeroCollage() {
 
       <div className="relative z-10 mx-auto w-full max-w-[460px]" style={{ containerType: "inline-size", aspectRatio: `${W}/${H}` }}>
         {/* opened envelope */}
-        <Reveal immediate delay={0.2} style={{ ...at(112, -14, 258), zIndex: 1 }}>
+        <Reveal immediate delay={0.35} style={{ ...at(112, 6, 258), zIndex: 1 }}>
           <img src="/images/v2/env_open.png" alt="" className="w-full drop-shadow-[0_8px_14px_rgba(40,25,35,.2)]" />
         </Reveal>
 
         {/* hands polaroid with vertical SAVE THE DATE */}
-        <Reveal immediate delay={0.7} style={{ ...at(84, 266, 168), zIndex: 5 }}>
+        <Reveal immediate delay={0.62} style={{ ...at(84, 266, 168), zIndex: 5 }}>
           <div className="relative bg-[#f6f2ed] drop-shadow-[0_5px_8px_rgba(40,25,35,.28)]" style={{ padding: `${cq(5)} ${cq(5)} ${cq(5)} ${cq(26)}` }}>
             <img src="/images/ring-exchange.jpg" alt="" className="block w-full object-cover sepia-[.55] brightness-[.72] contrast-[1.15]" style={{ aspectRatio: "1.45/1", objectPosition: "center 55%" }} />
             <span className="font-playfair absolute left-0 top-0 flex h-full items-center justify-center font-semibold uppercase text-[#2a2224]" style={{ width: cq(26), writingMode: "vertical-rl", transform: "rotate(180deg)", fontSize: cq(8.2), letterSpacing: "0.22em" }}>Save the date</span>
@@ -110,7 +110,7 @@ export default function HeroCollage() {
         </Reveal>
 
         {/* save the date bracket card */}
-        <Reveal immediate delay={1.0} style={{ ...at(246, 288, 208), zIndex: 6 }}>
+        <Reveal immediate delay={0.76} style={{ ...at(246, 288, 208), zIndex: 6 }}>
           <div className="relative drop-shadow-[0_6px_10px_rgba(40,25,35,.25)]" style={{ aspectRatio: "208/262" }}>
             <svg viewBox="0 0 208 262" className="absolute inset-0 h-full w-full">
               <path d="M16 1.5H192A14.5 14.5 0 0 0 206.5 16V246A14.5 14.5 0 0 0 192 260.5H16A14.5 14.5 0 0 0 1.5 246V16A14.5 14.5 0 0 0 16 1.5Z" fill="#faf7f5" stroke="#5a3a47" strokeWidth="3" />
@@ -129,7 +129,7 @@ export default function HeroCollage() {
         </Reveal>
 
         {/* rococo quote label */}
-        <Reveal immediate delay={1.3} style={{ ...at(44, 366, 240), zIndex: 8 }}>
+        <Reveal immediate delay={0.9} style={{ ...at(44, 366, 240), zIndex: 8 }}>
           <div className="relative drop-shadow-[0_5px_8px_rgba(40,25,35,.25)]">
             <img src="/images/v2/rococo_frame.png" alt="" className="w-full" />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center font-corm font-semibold text-[#2a2124]" style={{ padding: `${cq(22)} ${cq(36)}`, fontSize: cq(7), lineHeight: 1.38 }}>
@@ -138,12 +138,12 @@ export default function HeroCollage() {
             </div>
           </div>
         </Reveal>
-        <Reveal immediate delay={2.5} style={{ ...at(145, 528, 46), zIndex: 7 }}>
+        <Reveal immediate delay={1.58} style={{ ...at(145, 528, 46), zIndex: 7 }}>
           <img src="/images/v2/tassel_charm.png" alt="" className="w-full drop-shadow-[0_4px_5px_rgba(0,0,0,.3)]" />
         </Reveal>
 
         {/* lace heart */}
-        <Reveal immediate delay={1.9} style={{ ...at(198, 562, 176), zIndex: 9 }}>
+        <Reveal immediate delay={1.36} style={{ ...at(198, 562, 176), zIndex: 9 }}>
           <div className="relative drop-shadow-[0_6px_8px_rgba(40,25,35,.3)]">
             <img src="/images/v2/lace_heart.png" alt="" className="w-full" />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-[#f4eeea]" style={{ paddingTop: "4%" }}>
@@ -153,32 +153,32 @@ export default function HeroCollage() {
             </div>
           </div>
         </Reveal>
-        <Reveal immediate delay={2.2} style={{ ...at(246, 676, 60), zIndex: 10 }}>
+        <Reveal immediate delay={1.48} style={{ ...at(246, 676, 60), zIndex: 10 }}>
           <img src="/images/v2/ribbon_bow.png" alt="" className="w-full drop-shadow-[0_5px_5px_rgba(0,0,0,.28)]" />
         </Reveal>
 
         {/* bride / groom polaroids */}
-        <Reveal immediate delay={1.6} rotate={-6} style={{ ...at(30, 580, 104), zIndex: 11 }} variant="rv-pop">
+        <Reveal immediate delay={1.12} rotate={-6} style={{ ...at(30, 580, 104), zIndex: 11 }} variant="rv-pop">
           <Polaroid src="/images/vintage/bride_polaroid.jpg" label="Bride" />
         </Reveal>
-        <Reveal immediate delay={1.75} rotate={3} style={{ ...at(112, 684, 98), zIndex: 12 }} variant="rv-pop">
+        <Reveal immediate delay={1.24} rotate={3} style={{ ...at(112, 684, 98), zIndex: 12 }} variant="rv-pop">
           <Polaroid src="/images/vintage/groom_polaroid.jpg" label="Groom" />
         </Reveal>
 
         {/* botanicals */}
-        <Reveal variant="rv-pop" immediate delay={2.7} rotate={-8} style={{ ...at(60, 120, 120), zIndex: 3 }}>
+        <Reveal variant="rv-pop" immediate delay={1.72} rotate={-8} style={{ ...at(60, 120, 120), zIndex: 3 }}>
           <img src="/images/v2/botanical_sprig.png" alt="" className="w-full -rotate-[72deg] origin-center" style={{ transform: "rotate(-72deg) scale(.9)" }} />
         </Reveal>
-        <Reveal variant="rv-pop" immediate delay={2.9} rotate={10} style={{ ...at(86, 200, 62), zIndex: 4 }}>
+        <Reveal variant="rv-pop" immediate delay={1.82} rotate={10} style={{ ...at(86, 200, 62), zIndex: 4 }}>
           <img src="/images/v2/dried_flower.png" alt="" className="w-full drop-shadow-[0_3px_4px_rgba(0,0,0,.3)]" />
         </Reveal>
-        <Reveal variant="rv-pop" immediate delay={3.0} rotate={-20} style={{ ...at(392, 500, 66), zIndex: 20 }}>
+        <Reveal variant="rv-pop" immediate delay={1.92} rotate={-20} style={{ ...at(392, 500, 66), zIndex: 20 }}>
           <img src="/images/v2/dried_flower.png" alt="" className="w-full drop-shadow-[0_3px_4px_rgba(0,0,0,.3)]" />
         </Reveal>
 
-        <Butterfly x={340} y={232} w={52} r={18} d={3.1} />
-        <Butterfly x={44} y={352} w={46} r={-28} d={3.3} />
-        <Butterfly x={318} y={706} w={54} r={20} d={3.5} />
+        <Butterfly x={340} y={232} w={52} r={18} d={2.02} />
+        <Butterfly x={44} y={352} w={46} r={-28} d={2.12} />
+        <Butterfly x={318} y={706} w={54} r={20} d={2.22} />
       </div>
     </section>
   );
