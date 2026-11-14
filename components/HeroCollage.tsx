@@ -4,6 +4,7 @@ import React from "react";
 import { WEDDING_DATA } from "@/data/weddingData";
 import Reveal from "@/components/Reveal";
 import ButterflySvg from "@/components/Butterfly";
+import { AmbientMotes, EditorialFrame } from "@/components/LuxuryChrome";
 
 const W = 480;
 const H = 830;
@@ -28,8 +29,73 @@ function Butterfly({ x, y, w, r, d }: { x: number; y: number; w: number; r: numb
 export default function HeroCollage() {
   const g = WEDDING_DATA;
   return (
-    <section className="paper relative w-full overflow-hidden">
-      <div className="relative mx-auto w-full max-w-[460px]" style={{ containerType: "inline-size", aspectRatio: `${W}/${H}` }}>
+    <section className="paper relative w-full overflow-hidden pb-3 pt-1">
+      {/* Luxury background layers: soft champagne/mauve wash + top vignette fading cleanly to transparent at bottom */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        aria-hidden="true"
+        style={{
+          background:
+            "radial-gradient(ellipse 90% 52% at 50% 24%, rgba(255,250,242,0.40) 0%, rgba(226,208,196,0.12) 52%, transparent 85%), linear-gradient(180deg, rgba(128,100,86,0.14) 0%, transparent 24%, transparent 100%), radial-gradient(circle at 16% 58%, rgba(150,110,120,0.11) 0%, transparent 42%), radial-gradient(circle at 86% 36%, rgba(196,162,120,0.13) 0%, transparent 40%)",
+        }}
+      />
+
+      {/* Delicate blind-letterpress botanical arch watermark fading smoothly toward the bottom */}
+      <svg
+        viewBox="0 0 480 830"
+        fill="none"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-[0.24]"
+      >
+        <defs>
+          <linearGradient id="archFade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#8b6a56" stopOpacity="0.48" />
+            <stop offset="76%" stopColor="#8b6a56" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#8b6a56" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M52 820V232C52 128 136 44 240 44s188 84 188 188v588"
+          stroke="url(#archFade)"
+          strokeWidth="0.95"
+          strokeDasharray="3 5"
+        />
+        <circle cx="240" cy="430" r="196" stroke="#8b6a56" strokeOpacity="0.22" strokeWidth="0.8" />
+        <circle cx="240" cy="430" r="184" stroke="#8b6a56" strokeOpacity="0.16" strokeWidth="0.6" strokeDasharray="2 4" />
+      </svg>
+
+      {/* Pressed botanical corner watermarks flanking envelope & bottom corner */}
+      <img
+        src="/images/v2/botanical_sprig.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-14 top-4 z-0 w-[185px] rotate-[28deg] opacity-[0.17] mix-blend-multiply"
+      />
+      <img
+        src="/images/v2/botanical_sprig.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-14 top-4 z-0 w-[185px] -scale-x-100 -rotate-[28deg] opacity-[0.17] mix-blend-multiply"
+      />
+      <img
+        src="/images/v2/botanical_sprig.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-12 bottom-6 z-0 w-[195px] -rotate-[24deg] opacity-[0.16] mix-blend-multiply"
+      />
+      <img
+        src="/images/v2/botanical_sprig.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-12 bottom-10 z-0 w-[170px] scale-x-[-1] rotate-[22deg] opacity-[0.13] mix-blend-multiply"
+      />
+
+      {/* Double letterpress border & top corner flourishes (underneath top envelope tip) */}
+      <EditorialFrame topCorners topCap />
+
+      <AmbientMotes />
+
+      <div className="relative z-10 mx-auto w-full max-w-[460px]" style={{ containerType: "inline-size", aspectRatio: `${W}/${H}` }}>
         {/* opened envelope */}
         <Reveal immediate delay={0.2} style={{ ...at(112, -14, 258), zIndex: 1 }}>
           <img src="/images/v2/env_open.png" alt="" className="w-full drop-shadow-[0_8px_14px_rgba(40,25,35,.2)]" />

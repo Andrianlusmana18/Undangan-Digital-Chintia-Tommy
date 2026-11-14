@@ -4,12 +4,15 @@ import React from "react";
 import { WEDDING_DATA } from "@/data/weddingData";
 import Reveal from "@/components/Reveal";
 import ButterflySvg from "@/components/Butterfly";
+import { EditorialDivider, EditorialFrame } from "@/components/LuxuryChrome";
 
 export default function MempelaiSection() {
   const g = WEDDING_DATA;
   return (
-    <section className="paper relative px-3 pb-10 pt-4">
-      <Reveal className="relative mx-auto w-full max-w-[430px]">
+    <section className="paper relative px-5 pb-10 pt-2">
+      <EditorialFrame />
+      <EditorialDivider className="relative z-10 mb-6" />
+      <Reveal className="relative z-10 mx-auto w-full max-w-[410px]">
         <div className="relative" style={{ containerType: "inline-size" }}>
           <img src="/images/v2/frame_short.jpg" alt="" className="block w-full rounded-[3px] shadow-[0_8px_24px_rgba(40,30,30,.12)]" />
           <div

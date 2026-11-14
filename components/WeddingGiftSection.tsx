@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { WEDDING_DATA } from "@/data/weddingData";
 import Reveal from "@/components/Reveal";
 import ButterflySvg from "@/components/Butterfly";
+import { EditorialFrame } from "@/components/LuxuryChrome";
 
 export default function WeddingGiftSection() {
   const [copied, setCopied] = useState<number | null>(null);
@@ -14,18 +15,33 @@ export default function WeddingGiftSection() {
   };
 
   return (
-    <section className="paper relative overflow-hidden px-5 pb-16 pt-14 text-center">
-      <div className="bfly absolute right-12 top-2 w-[40px]" style={{ ["--r" as string]: "10deg" }}>
+    <section className="paper relative overflow-hidden px-6 pb-14 pt-16 text-center">
+      <EditorialFrame topCorners topCap />
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        aria-hidden="true"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255,251,245,0.4) 0%, transparent 74%)",
+        }}
+      />
+      <img
+        src="/images/v2/botanical_sprig.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-14 top-6 z-0 w-[180px] rotate-[28deg] opacity-[0.14] mix-blend-multiply"
+      />
+      <div className="bfly absolute right-12 top-5 z-10 w-[40px]" style={{ ["--r" as string]: "10deg" }}>
         <ButterflySvg className="w-full drop-shadow-[0_3px_4px_rgba(0,0,0,.3)]" />
       </div>
-      <Reveal>
+      <Reveal className="relative z-10">
         <h2 className="font-script text-[48px] leading-none text-[#2f2226]">Wedding Gift</h2>
-        <p className="font-corm mx-auto mt-5 max-w-[360px] text-[17px] font-medium leading-snug text-[#2f2528]">
+        <p className="font-corm mx-auto mt-5 max-w-[350px] text-[17px] font-medium leading-snug text-[#2f2528]">
           Kehadiran dan doa restu Anda sudah sangat berarti bagi kami. Dengan segala kerendahan hati, bagi Bapak/Ibu/Saudara/i yang berkenan memberikan kado pernikahan, dapat disalurkan melalui rekening berikut:
         </p>
       </Reveal>
 
-      <Reveal delay={0.15} className="mx-auto mt-7 max-w-[330px] space-y-4 text-left">
+      <Reveal delay={0.15} className="relative z-10 mx-auto mt-7 max-w-[330px] space-y-4 text-left">
         {WEDDING_DATA.bankAccounts.map((a, i) => (
           <div key={a.logo} className="relative overflow-hidden rounded-[18px] border border-[#c7a67b]/35 bg-gradient-to-br from-[#3a252d] via-[#2b1a20] to-[#1f1317] px-6 py-5 text-white shadow-xl">
             <div className="flex items-center justify-between">

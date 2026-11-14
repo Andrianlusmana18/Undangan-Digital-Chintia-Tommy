@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const viewport: Viewport = {
-  themeColor: "#efedea",
+  themeColor: "#eae1d7",
   colorScheme: "only light",
 };
 
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <meta name="color-scheme" content="only light" />
         <meta name="supported-color-schemes" content="only light light" />
-        <meta name="theme-color" content="#efedea" />
+        <meta name="theme-color" content="#eae1d7" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

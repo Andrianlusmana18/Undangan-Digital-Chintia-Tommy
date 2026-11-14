@@ -55,11 +55,11 @@ function App() {
   return (
     <div
       style={{ colorScheme: "only light" }}
-      className={`flex min-h-screen justify-center bg-[#dedad6] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}
+      className={`flex min-h-screen justify-center bg-gradient-to-b from-[#d8cfc5] via-[#cfc3b7] to-[#c4b7aa] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}
     >
       <main
         style={{ colorScheme: "only light" }}
-        className={`relative w-full max-w-[480px] bg-[#efedea] shadow-[0_0_40px_rgba(0,0,0,.12)] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}
+        className={`relative w-full max-w-[480px] bg-[#eae1d7] shadow-[0_0_50px_rgba(38,24,28,.18)] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}
       >
         {!opened ? (
           <CoverSection guestName={guest} onOpenInvitation={() => { setOpened(true); window.scrollTo({ top: 0 }); }} />
@@ -90,7 +90,7 @@ function App() {
 export default function Home() {
   return (
     <AudioProvider>
-      <Suspense fallback={<div className="min-h-screen bg-[#efedea]" />}>
+      <Suspense fallback={<div className="min-h-screen bg-[#eae1d7]" />}>
         <App />
       </Suspense>
     </AudioProvider>

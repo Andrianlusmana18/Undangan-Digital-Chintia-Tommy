@@ -5,7 +5,7 @@
 :root {
   color-scheme: only light !important;
   supported-color-schemes: only light light !important;
-  --paper: #efedea;
+  --paper: #eae1d7;
   --ink: #2b2326;
   --plum: #4b3441;
   --plum-deep: #3a2632;
@@ -23,7 +23,7 @@ html {
 body {
   color-scheme: only light !important;
   supported-color-schemes: only light light !important;
-  background-color: #e9e6e2 !important;
+  background-color: #ddd3c8 !important;
   color: #2b2326 !important;
   font-family: 'Cormorant Garamond', serif;
   overflow-x: hidden;
@@ -34,7 +34,7 @@ body {
 @media (prefers-color-scheme: dark) {
   :root, html, body {
     color-scheme: only light !important;
-    background-color: #e9e6e2 !important;
+    background-color: #ddd3c8 !important;
     color: #2b2326 !important;
   }
 }
@@ -50,15 +50,17 @@ body.lock-scroll {
 }
 
 /* 
-  High-performance hardware-accelerated vintage paper texture.
-  Replaces heavy CPU-bound SVG feTurbulence with smooth CSS radial tints + micro-pattern,
-  producing silky smooth 60fps scrolling on mobile devices without any lag.
+  High-performance GPU-cached vintage cotton-linen paper texture.
+  Combines warm parchment spotlight + subtle antique edge vignette over a lightweight
+  seamless 256x256 cotton fiber tile for silky 60fps mobile scrolling.
 */
 .paper {
   background-color: var(--paper);
-  background-image: 
-    radial-gradient(circle at 50% 30%, rgba(255, 253, 249, 0.45) 0%, transparent 70%),
-    radial-gradient(circle at 50% 80%, rgba(220, 212, 204, 0.25) 0%, transparent 60%);
+  background-image:
+    linear-gradient(90deg, rgba(110, 84, 72, 0.13) 0%, rgba(168, 144, 128, 0.03) 14%, rgba(255, 252, 246, 0.28) 50%, rgba(168, 144, 128, 0.03) 86%, rgba(110, 84, 72, 0.13) 100%),
+    url('/images/v2/paper_texture.jpg');
+  background-size: 100% 100%, 256px 256px;
+  background-repeat: no-repeat, repeat;
   background-attachment: local;
 }
 

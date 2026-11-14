@@ -4,19 +4,9 @@ import React, { useState } from "react";
 import { useAudio } from "@/context/AudioContext";
 import Magnet from "@/components/reactbits/Magnet";
 import ButterflySvg from "@/components/Butterfly";
-import { AmbientMotes } from "@/components/LuxuryChrome";
+import { AmbientMotes, EditorialFrame } from "@/components/LuxuryChrome";
 
 interface Props { guestName: string; onOpenInvitation: () => void }
-
-function CornerFlourish({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 48 48" fill="none" className={className} aria-hidden="true">
-      <path d="M2 46V16C2 8.268 8.268 2 16 2h30" stroke="#8b6a56" strokeOpacity="0.45" strokeWidth="1" />
-      <path d="M8 46V20C8 13.373 13.373 8 20 8h26" stroke="#8b6a56" strokeOpacity="0.25" strokeWidth="0.75" />
-      <circle cx="14" cy="14" r="1.6" fill="#8b6a56" fillOpacity="0.45" />
-    </svg>
-  );
-}
 
 export default function CoverSection({ guestName, onOpenInvitation }: Props) {
   const [leaving, setLeaving] = useState(false);
@@ -36,7 +26,7 @@ export default function CoverSection({ guestName, onOpenInvitation }: Props) {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(circle at 50% 45%, rgba(255,252,247,0.72) 0%, rgba(239,237,234,0.2) 55%, rgba(168,154,144,0.28) 100%)",
+            "radial-gradient(circle at 50% 44%, rgba(255,252,247,0.34) 0%, rgba(234,225,215,0.12) 56%, rgba(146,120,106,0.24) 100%)",
         }}
       />
 
@@ -44,21 +34,16 @@ export default function CoverSection({ guestName, onOpenInvitation }: Props) {
       <img
         src="/images/v2/botanical_sprig.png"
         alt=""
-        className="pointer-events-none absolute -right-14 -top-6 w-[210px] rotate-[145deg] opacity-[0.14] mix-blend-multiply"
+        className="pointer-events-none absolute -right-14 -top-6 w-[210px] rotate-[145deg] opacity-[0.15] mix-blend-multiply"
       />
       <img
         src="/images/v2/botanical_sprig.png"
         alt=""
-        className="pointer-events-none absolute -bottom-10 -left-14 w-[210px] -rotate-[25deg] opacity-[0.14] mix-blend-multiply"
+        className="pointer-events-none absolute -bottom-10 -left-14 w-[210px] -rotate-[25deg] opacity-[0.15] mix-blend-multiply"
       />
 
       {/* Letterpress double hairline border & corner flourishes */}
-      <div className="pointer-events-none absolute inset-3.5 border border-[#8b6a56]/25" />
-      <div className="pointer-events-none absolute inset-[19px] border border-[#8b6a56]/15" />
-      <CornerFlourish className="pointer-events-none absolute left-3.5 top-3.5 h-10 w-10" />
-      <CornerFlourish className="pointer-events-none absolute right-3.5 top-3.5 h-10 w-10 rotate-90" />
-      <CornerFlourish className="pointer-events-none absolute bottom-3.5 right-3.5 h-10 w-10 rotate-180" />
-      <CornerFlourish className="pointer-events-none absolute bottom-3.5 left-3.5 h-10 w-10 -rotate-90" />
+      <EditorialFrame topCorners bottomCorners topCap bottomCap />
 
       <AmbientMotes />
 

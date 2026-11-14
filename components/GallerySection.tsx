@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Reveal from "@/components/Reveal";
+import { EditorialDivider, EditorialFrame } from "@/components/LuxuryChrome";
 
 interface PhotoItem {
   src: string;
@@ -127,23 +128,35 @@ export default function GallerySection() {
   };
 
   return (
-    <section className="paper relative overflow-hidden px-4 py-12">
+    <section className="paper relative overflow-hidden px-6 pb-16 pt-4">
+      <EditorialFrame bottomCorners bottomCap />
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        aria-hidden="true"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 50% at 50% 45%, rgba(255,251,245,0.32) 0%, transparent 74%)",
+        }}
+      />
+
       {/* Subtle botanical background accents */}
       <img
         src="/images/v2/botanical_sprig.png"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -left-8 top-16 w-[130px] rotate-[24deg] opacity-35"
+        className="pointer-events-none absolute -left-8 top-16 z-0 w-[135px] rotate-[24deg] opacity-[0.22] mix-blend-multiply"
       />
       <img
         src="/images/v2/dried_flower.png"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -right-6 bottom-12 w-[120px] -rotate-[18deg] opacity-40"
+        className="pointer-events-none absolute -right-6 bottom-12 z-0 w-[120px] -rotate-[18deg] opacity-35"
       />
 
+      <EditorialDivider className="relative z-10 mb-7" />
+
       {/* Section Header */}
-      <Reveal className="relative z-10 mx-auto max-w-[420px] text-center">
+      <Reveal className="relative z-10 mx-auto max-w-[400px] text-center">
         <h2 className="font-alex text-[44px] leading-none text-[#332229]">Our Moments</h2>
         <p className="font-cinzel mt-1 text-[10px] font-semibold uppercase tracking-[0.26em] text-[#7a645a]">
           Potret Kebersamaan
@@ -156,7 +169,7 @@ export default function GallerySection() {
       </Reveal>
 
       {/* Editorial Scrapbook Collage */}
-      <div className="relative z-10 mx-auto mt-8 max-w-[420px] space-y-6">
+      <div className="relative z-10 mx-auto mt-8 max-w-[400px] space-y-6">
         {/* 1. Featured Opening Portrait */}
         <div className="px-2">
           <PolaroidCard

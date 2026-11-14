@@ -107,3 +107,68 @@ export function AmbientMotes() {
     </div>
   );
 }
+
+/** Delicate vintage letterpress corner flourish shared across cover and paper sections. */
+export function CornerFlourish({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" className={className} aria-hidden="true">
+      <path d="M2 46V16C2 8.268 8.268 2 16 2h30" stroke="#8b6a56" strokeOpacity="0.45" strokeWidth="1" />
+      <path d="M8 46V20C8 13.373 13.373 8 20 8h26" stroke="#8b6a56" strokeOpacity="0.25" strokeWidth="0.75" />
+      <circle cx="14" cy="14" r="1.6" fill="#8b6a56" fillOpacity="0.45" />
+    </svg>
+  );
+}
+
+/** Continuous double-hairline stationery border with optional corner flourishes. */
+export function EditorialFrame({
+  topCorners = false,
+  bottomCorners = false,
+  topCap = false,
+  bottomCap = false,
+}: {
+  topCorners?: boolean;
+  bottomCorners?: boolean;
+  topCap?: boolean;
+  bottomCap?: boolean;
+}) {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+      <div
+        className={`absolute inset-x-3.5 inset-y-0 border-x border-[#8b6a56]/22 ${
+          topCap ? "top-3.5 border-t" : ""
+        } ${bottomCap ? "bottom-3.5 border-b" : ""}`}
+      />
+      <div
+        className={`absolute inset-x-[19px] inset-y-0 border-x border-[#8b6a56]/12 ${
+          topCap ? "top-[19px] border-t" : ""
+        } ${bottomCap ? "bottom-[19px] border-b" : ""}`}
+      />
+      {topCorners && (
+        <>
+          <CornerFlourish className="absolute left-3.5 top-3.5 h-9 w-9" />
+          <CornerFlourish className="absolute right-3.5 top-3.5 h-9 w-9 rotate-90" />
+        </>
+      )}
+      {bottomCorners && (
+        <>
+          <CornerFlourish className="absolute bottom-3.5 right-3.5 h-9 w-9 rotate-180" />
+          <CornerFlourish className="absolute bottom-3.5 left-3.5 h-9 w-9 -rotate-90" />
+        </>
+      )}
+    </div>
+  );
+}
+
+/** Refined antique bronze & gold ornamental section divider. */
+export function EditorialDivider({ className = "" }: { className?: string }) {
+  return (
+    <div className={`pointer-events-none flex items-center justify-center gap-2.5 ${className}`} aria-hidden="true">
+      <span className="h-px w-14 bg-gradient-to-r from-transparent via-[#8b6a56]/45 to-[#8b6a56]/60" />
+      <span className="text-[9px] text-[#9b7a5e]/75">✦</span>
+      <span className="h-1.5 w-1.5 rotate-45 border border-[#8b6a56]/60 bg-[#c7a67b]/35" />
+      <span className="text-[9px] text-[#9b7a5e]/75">✦</span>
+      <span className="h-px w-14 bg-gradient-to-l from-transparent via-[#8b6a56]/45 to-[#8b6a56]/60" />
+    </div>
+  );
+}
+
