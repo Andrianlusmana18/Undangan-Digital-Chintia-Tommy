@@ -5,7 +5,7 @@ import { useAudio } from "@/context/AudioContext";
 import Magnet from "@/components/reactbits/Magnet";
 import ShinyText from "@/components/reactbits/ShinyText";
 import ButterflySvg from "@/components/Butterfly";
-import { AmbientMotes, EditorialFrame } from "@/components/LuxuryChrome";
+import { AmbientMotes, EditorialFrame, PaperBackdrop, inkStyle } from "@/components/LuxuryChrome";
 
 interface Props { guestName: string; onOpenInvitation: () => void }
 
@@ -24,14 +24,7 @@ export default function CoverSection({ guestName, onOpenInvitation }: Props) {
 
   return (
     <div className={`paper relative h-[100dvh] max-h-[100dvh] w-full overflow-hidden text-center select-none touch-none overscroll-none ${leaving ? "cover-out" : ""}`}>
-      {/* Warm ivory-gold spotlight + soft vintage vignette */}
-      <div
-        className="cover-halo pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at 50% 44%, rgba(255,250,240,0.46) 0%, rgba(234,225,215,0.12) 56%, rgba(146,120,106,0.24) 100%)",
-        }}
-      />
+      <PaperBackdrop />
 
       {/* Subtle botanical corner watermarks */}
       <div
@@ -58,10 +51,10 @@ export default function CoverSection({ guestName, onOpenInvitation }: Props) {
       <AmbientMotes />
 
       {/* Top editorial wedding header */}
-      <div className="absolute inset-x-0 top-[6.5svh] flex flex-col items-center">
+      <div className="absolute inset-x-0 top-[6.5svh] z-10 flex flex-col items-center">
         <p
-          className="cover-tracking-in font-pop text-[9px] uppercase tracking-[0.38em] text-[#7a6b67]"
-          style={{ ["--cd" as string]: "0.08s" }}
+          className="cover-tracking-in font-pop ink text-[9px] uppercase tracking-[0.38em]"
+          style={{ ["--cd" as string]: "0.08s", ...inkStyle("#7a6b67") }}
         >
           The Wedding of
         </p>
@@ -82,8 +75,8 @@ export default function CoverSection({ guestName, onOpenInvitation }: Props) {
         <div className="mt-1.5 flex items-center gap-2.5 text-[#8b6a56]/70">
           <span className="cover-line-r h-px w-7 bg-[#8b6a56]/45" style={{ ["--cd" as string]: "0.34s" }} />
           <span
-            className="cover-fade-rise font-playfair text-[10px] tracking-[0.22em]"
-            style={{ ["--cd" as string]: "0.3s", ["--cdur" as string]: "0.75s" }}
+            className="cover-fade-rise font-playfair ink text-[10px] tracking-[0.22em]"
+            style={{ ["--cd" as string]: "0.3s", ["--cdur" as string]: "0.75s", ...inkStyle("#8b6a56") }}
           >
             28 . 11 . 2026
           </span>
@@ -92,7 +85,7 @@ export default function CoverSection({ guestName, onOpenInvitation }: Props) {
       </div>
 
       {/* Main title + calligraphic brush reveal + fluttering butterfly accent */}
-      <div className="absolute inset-x-0 top-[20.5svh] flex flex-col items-center">
+      <div className="absolute inset-x-0 top-[20.5svh] z-10 flex flex-col items-center">
         <div className="relative inline-flex flex-col items-center">
           <h2
             aria-label="YOU'RE"
@@ -101,8 +94,8 @@ export default function CoverSection({ guestName, onOpenInvitation }: Props) {
             {YOURE_CHARS.map((ch, idx) => (
               <span
                 key={idx}
-                className="cover-char-in inline-block"
-                style={{ ["--cd" as string]: `${0.24 + idx * 0.048}s` }}
+                className="cover-char-in ink inline-block"
+                style={{ ["--cd" as string]: `${0.24 + idx * 0.048}s`, ...inkStyle("#1d1819") }}
               >
                 {ch}
               </span>
@@ -165,16 +158,8 @@ export default function CoverSection({ guestName, onOpenInvitation }: Props) {
               className="cover-wax-ring pointer-events-none absolute left-1/2 top-[67%] h-14 w-14 rounded-full border border-[#f2d69f]/55"
               style={{ animationDelay: "1.95s" }}
             />
-            <span className="emboss-w font-corm absolute left-0 right-0 top-[11%] text-[30px] font-light tracking-[0.08em]">
-              <ShinyText
-                baseColor="#f3efec"
-                shimmerColor="#fff5d4"
-                speed={4.6}
-                delay={1.0}
-                className="px-1"
-              >
-                CT
-              </ShinyText>
+            <span className="emboss-w font-corm absolute left-0 right-0 top-[11%] text-[30px] font-light tracking-[0.08em] text-[#f3efec]">
+              CT
             </span>
             <div className="pointer-events-none absolute -left-[12%] bottom-[-6%] w-[28%] rotate-[8deg]">
               <img
@@ -197,10 +182,10 @@ export default function CoverSection({ guestName, onOpenInvitation }: Props) {
       </div>
 
       {/* Guest name & CTA */}
-      <div className="absolute inset-x-0 bottom-[7.5svh] flex flex-col items-center px-6">
+      <div className="absolute inset-x-0 bottom-[7.5svh] z-10 flex flex-col items-center px-6">
         <p
-          className="cover-fade-rise font-corm text-[14px] italic tracking-wide text-[#6d6461]"
-          style={{ ["--cd" as string]: "0.56s", ["--cdur" as string]: "0.75s" }}
+          className="cover-fade-rise font-corm ink text-[14px] italic tracking-wide"
+          style={{ ["--cd" as string]: "0.56s", ["--cdur" as string]: "0.75s", ...inkStyle("#6d6461") }}
         >
           Kepada Yth. Bapak/Ibu/Saudara/i
         </p>
@@ -244,7 +229,7 @@ export default function CoverSection({ guestName, onOpenInvitation }: Props) {
           </Magnet>
         </div>
         <div className="cover-fade-rise mt-2.5" style={{ ["--cd" as string]: "0.94s", ["--cdur" as string]: "0.75s" }}>
-          <p className="cover-whisper font-pop text-[9.5px] tracking-widest text-[#8a7b73]">
+          <p className="cover-whisper font-pop ink text-[9.5px] tracking-widest" style={inkStyle("#8a7b73")}>
             Ketuk segel lilin atau tombol di atas
           </p>
         </div>

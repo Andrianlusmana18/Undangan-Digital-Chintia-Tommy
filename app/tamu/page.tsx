@@ -6,6 +6,19 @@ import { useRouter } from "next/navigation";
 import { WEDDING_DATA } from "@/data/weddingData";
 import { copyToClipboard } from "@/lib/clipboard";
 import { buildWhatsAppMessage, formatGuestUrl } from "@/lib/whatsappMessage";
+import { inkStyle, svgCardDataUri } from "@/components/LuxuryChrome";
+
+const TAMU_BG_URI = svgCardDataUri("#f3efe9");
+const TAMU_CARD_URI = svgCardDataUri("#ffffff");
+
+function CardBox({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`relative overflow-hidden rounded-[22px] border border-[#8b6a56]/20 bg-white p-6 shadow-sm ${className}`}>
+      <img src={TAMU_CARD_URI} alt="" aria-hidden="true" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full object-fill select-none" />
+      <div className="relative z-10">{children}</div>
+    </div>
+  );
+}
 
 function cleanPhone(num: string): string {
   let cleaned = num.replace(/[^0-9]/g, "");
@@ -161,58 +174,63 @@ export default function GuestLinkGeneratorPage() {
   // PIN LOCK SCREEN
   if (!isAuthenticated) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#f3efe9] px-4 py-12">
-        <div className="w-full max-w-[380px] rounded-[26px] border border-[#8b6a56]/25 bg-white p-7 text-center shadow-lg">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#4b3441] text-white shadow-md">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-            </svg>
-          </div>
-
-          <h1 className="font-playfair mt-5 text-[22px] font-bold text-[#322026]">
-            Area Khusus Mempelai
-          </h1>
-          <p className="font-corm mt-1.5 text-[15px] text-[#6d5e62]">
-            Halaman ini dilindungi. Masukkan PIN keamanan untuk mengakses generator undangan WhatsApp.
-          </p>
-
-          <form onSubmit={handleUnlock} className="mt-6 space-y-4">
-            <div>
-              <input
-                type="password"
-                maxLength={6}
-                disabled={isBlocked}
-                value={pinInput}
-                onChange={(e) => {
-                  setPinInput(e.target.value);
-                  setPinErrorMsg("");
-                }}
-                placeholder="Masukkan PIN (4 Digit)"
-                className="w-full text-center tracking-[0.4em] font-mono rounded-xl border border-[#d6cbc5] bg-[#faf8f5] px-4 py-3 text-[18px] font-bold text-[#2e2427] outline-none placeholder:tracking-normal placeholder:font-sans placeholder:text-[13px] placeholder:text-[#a09496] focus:border-[#4b3441] focus:ring-1 focus:ring-[#4b3441] disabled:opacity-50"
-                autoFocus
-                required
-              />
-              {pinErrorMsg && (
-                <p className="font-pop mt-2 text-[12px] font-medium text-red-600 animate-shake">
-                  {isBlocked ? "⛔" : "❌"} {pinErrorMsg}
-                </p>
-              )}
+      <div className="relative flex min-h-screen items-center justify-center bg-[#f3efe9] px-4 py-12">
+        <img src={TAMU_BG_URI} alt="" aria-hidden="true" draggable={false} className="pointer-events-none fixed inset-0 h-full w-full object-fill select-none" />
+        <div className="relative z-10 w-full max-w-[380px] overflow-hidden rounded-[26px] border border-[#8b6a56]/25 bg-white p-7 text-center shadow-lg">
+          <img src={TAMU_CARD_URI} alt="" aria-hidden="true" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full object-fill select-none" />
+          <div className="relative z-10">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#4b3441] text-white shadow-md">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
             </div>
 
-            <button
-              type="submit"
-              disabled={isVerifying || isBlocked}
-              className="font-pop w-full rounded-xl bg-[#4b3441] py-3 text-[13px] font-semibold text-white shadow-md transition hover:bg-[#3b2732] active:scale-95 disabled:opacity-60"
-            >
-              {isBlocked ? "Akses Diblokir..." : isVerifying ? "Memverifikasi..." : "Buka Kunci Akses"}
-            </button>
-          </form>
+            <h1 className="font-playfair ink mt-5 text-[22px] font-bold" style={inkStyle("#322026")}>
+              Area Khusus Mempelai
+            </h1>
+            <p className="font-corm ink mt-1.5 text-[15px]" style={inkStyle("#6d5e62")}>
+              Halaman ini dilindungi. Masukkan PIN keamanan untuk mengakses generator undangan WhatsApp.
+            </p>
 
-          <div className="mt-6 border-t border-[#8b6a56]/15 pt-4">
-            <Link href="/" className="font-pop text-[12px] text-[#7a5849] hover:underline">
-              ← Kembali ke Undangan
-            </Link>
+            <form onSubmit={handleUnlock} className="mt-6 space-y-4">
+              <div>
+                <input
+                  type="password"
+                  maxLength={6}
+                  disabled={isBlocked}
+                  value={pinInput}
+                  onChange={(e) => {
+                    setPinInput(e.target.value);
+                    setPinErrorMsg("");
+                  }}
+                  placeholder="Masukkan PIN (4 Digit)"
+                  className="w-full text-center tracking-[0.4em] font-mono rounded-xl border border-[#d6cbc5] bg-[#faf8f5] px-4 py-3 text-[18px] font-bold text-[#2e2427] outline-none placeholder:tracking-normal placeholder:font-sans placeholder:text-[13px] placeholder:text-[#a09496] focus:border-[#4b3441] focus:ring-1 focus:ring-[#4b3441] disabled:opacity-50"
+                  autoFocus
+                  required
+                />
+                {pinErrorMsg && (
+                  <p className="font-pop mt-2 text-[12px] font-medium animate-shake">
+                    <span>{isBlocked ? "⛔" : "❌"}</span>{" "}
+                    <span className="ink" style={inkStyle("#dc2626")}>{pinErrorMsg}</span>
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                disabled={isVerifying || isBlocked}
+                className="font-pop w-full rounded-xl bg-[#4b3441] py-3 text-[13px] font-semibold text-white shadow-md transition hover:bg-[#3b2732] active:scale-95 disabled:opacity-60"
+              >
+                {isBlocked ? "Akses Diblokir..." : isVerifying ? "Memverifikasi..." : "Buka Kunci Akses"}
+              </button>
+            </form>
+
+            <div className="mt-6 border-t border-[#8b6a56]/15 pt-4">
+              <Link href="/" className="font-pop ink text-[12px] hover:underline" style={inkStyle("#7a5849")}>
+                ← Kembali ke Undangan
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -221,10 +239,11 @@ export default function GuestLinkGeneratorPage() {
 
   // UNLOCKED GENERATOR DASHBOARD
   return (
-    <div className="min-h-screen bg-[#f3efe9] px-4 py-8 text-[#2e2427]">
-      <div className="mx-auto max-w-[640px]">
+    <div className="relative min-h-screen bg-[#f3efe9] px-4 py-8 text-[#2e2427]">
+      <img src={TAMU_BG_URI} alt="" aria-hidden="true" draggable={false} className="pointer-events-none fixed inset-0 h-full w-full object-fill select-none" />
+      <div className="relative z-10 mx-auto max-w-[640px]">
         {/* Header */}
-        <div className="mb-6 rounded-[22px] border border-[#8b6a56]/20 bg-white/80 p-6 shadow-sm backdrop-blur-md">
+        <CardBox className="mb-6">
           <div className="flex items-center justify-between">
             <span className="font-pop rounded-full bg-[#4b3441] px-3 py-1 text-[10px] font-semibold tracking-wider text-white uppercase">
               Asisten Pengantin (Terverifikasi)
@@ -232,22 +251,23 @@ export default function GuestLinkGeneratorPage() {
             <div className="flex items-center gap-3">
               <button
                 onClick={handleLock}
-                className="font-pop text-[11px] font-semibold text-red-700 hover:underline"
+                className="font-pop text-[11px] font-semibold hover:underline"
               >
-                🔒 Kunci
+                <span>🔒</span> <span className="ink" style={inkStyle("#b91c1c")}>Kunci</span>
               </button>
               <Link
                 href="/"
-                className="font-pop text-[12px] font-medium text-[#7a5849] hover:underline"
+                className="font-pop ink text-[12px] font-medium hover:underline"
+                style={inkStyle("#7a5849")}
               >
                 ← Halaman Utama
               </Link>
             </div>
           </div>
-          <h1 className="font-playfair mt-3 text-[24px] font-bold text-[#322026]">
+          <h1 className="font-playfair ink mt-3 text-[24px] font-bold" style={inkStyle("#322026")}>
             Generator Undangan WhatsApp
           </h1>
-          <p className="font-corm mt-1 text-[15px] text-[#6d5e62]">
+          <p className="font-corm ink mt-1 text-[15px]" style={inkStyle("#6d5e62")}>
             Format undangan resmi yang sopan, rapi, dan tautan khusus anti-terpotong untuk dibagikan ke para tamu.
           </p>
 
@@ -274,20 +294,20 @@ export default function GuestLinkGeneratorPage() {
               Buat Sekaligus Banyak (Massal)
             </button>
           </div>
-        </div>
+        </CardBox>
 
         {tab === "single" ? (
           /* SINGLE GENERATOR */
           <div className="space-y-5">
             {/* Input Card */}
-            <div className="rounded-[22px] border border-[#8b6a56]/20 bg-white p-6 shadow-sm">
-              <h2 className="font-playfair text-[17px] font-bold text-[#3a282d]">
+            <CardBox>
+              <h2 className="font-playfair ink text-[17px] font-bold" style={inkStyle("#3a282d")}>
                 1. Masukkan Identitas Tamu
               </h2>
 
               <div className="mt-4 space-y-3">
                 <div>
-                  <label className="font-pop mb-1 block text-[11px] font-semibold uppercase tracking-wider text-[#6b585c]">
+                  <label className="font-pop ink mb-1 block text-[11px] font-semibold uppercase tracking-wider" style={inkStyle("#6b585c")}>
                     Nama Lengkap / Panggilan Tamu *
                   </label>
                   <input
@@ -300,7 +320,7 @@ export default function GuestLinkGeneratorPage() {
                 </div>
 
                 <div>
-                  <label className="font-pop mb-1 block text-[11px] font-semibold uppercase tracking-wider text-[#6b585c]">
+                  <label className="font-pop ink mb-1 block text-[11px] font-semibold uppercase tracking-wider" style={inkStyle("#6b585c")}>
                     Nomor WhatsApp Tamu (Opsional)
                   </label>
                   <input
@@ -310,7 +330,7 @@ export default function GuestLinkGeneratorPage() {
                     placeholder="Contoh: 08123456789 atau kosongkan jika ingin pilih kontak manual"
                     className="w-full rounded-xl border border-[#d6cbc5] bg-[#faf8f5] px-4 py-3 text-[14px] text-[#2e2427] outline-none placeholder:text-[#a09496] focus:border-[#4b3441] focus:ring-1 focus:ring-[#4b3441]"
                   />
-                  <p className="font-pop mt-1 text-[11px] text-[#8a7a7e]">
+                  <p className="font-pop ink mt-1 text-[11px]" style={inkStyle("#8a7a7e")}>
                     * Jika dikosongkan, tombol kirim akan membuka WhatsApp agar Anda bisa memilih kontak di HP.
                   </p>
                 </div>
@@ -318,11 +338,11 @@ export default function GuestLinkGeneratorPage() {
 
               {/* Link Hasil */}
               <div className="mt-5 rounded-xl border border-[#c7a67b]/40 bg-[#f9f6f0] p-3.5">
-                <p className="font-pop text-[10px] font-bold uppercase tracking-wider text-[#7a5a48]">
+                <p className="font-pop ink text-[10px] font-bold uppercase tracking-wider" style={inkStyle("#7a5a48")}>
                   Tautan Khusus Tamu (Anti-Terpotong):
                 </p>
                 <div className="mt-1 flex items-center justify-between gap-2 overflow-hidden">
-                  <span className="truncate font-mono text-[12px] text-[#4b3441]">
+                  <span className="truncate font-mono text-[12px] ink" style={inkStyle("#4b3441")}>
                     {guestLink}
                   </span>
                   <button
@@ -333,26 +353,27 @@ export default function GuestLinkGeneratorPage() {
                   </button>
                 </div>
               </div>
-            </div>
+            </CardBox>
 
             {/* Preview Card & Action */}
-            <div className="rounded-[22px] border border-[#8b6a56]/20 bg-white p-6 shadow-sm">
+            <CardBox>
               <div className="flex items-center justify-between">
-                <h2 className="font-playfair text-[17px] font-bold text-[#3a282d]">
+                <h2 className="font-playfair ink text-[17px] font-bold" style={inkStyle("#3a282d")}>
                   2. Format Pesan WhatsApp Resmi
                 </h2>
                 <a
                   href={guestLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="font-pop text-[11px] font-medium text-[#7a5849] hover:underline"
+                  className="font-pop ink text-[11px] font-medium hover:underline"
+                  style={inkStyle("#7a5849")}
                 >
                   Buka Tampilan Undangan ↗
                 </a>
               </div>
 
-              <div className="mt-3 whitespace-pre-line rounded-xl border border-[#d6cbc5] bg-[#fdfcfb] p-4 font-sans text-[13px] leading-relaxed text-[#3b2d30]">
-                {waTemplate}
+              <div className="mt-3 whitespace-pre-line rounded-xl border border-[#d6cbc5] bg-[#fdfcfb] p-4 font-sans text-[13px] leading-relaxed">
+                <span className="ink" style={inkStyle("#3b2d30")}>{waTemplate}</span>
               </div>
 
               <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
@@ -368,21 +389,21 @@ export default function GuestLinkGeneratorPage() {
 
                 <button
                   onClick={() => copyText(waTemplate, "message")}
-                  className="font-pop flex items-center justify-center gap-1.5 rounded-xl border border-[#4b3441] bg-white px-5 py-3.5 text-[13px] font-semibold text-[#4b3441] transition hover:bg-[#f6f2ec] active:scale-95"
+                  className="font-pop flex items-center justify-center gap-1.5 rounded-xl border border-[#4b3441] bg-[#f8f5f1] px-5 py-3.5 text-[13px] font-semibold transition hover:bg-[#f0e9e0] active:scale-95"
                 >
-                  {copiedMessage ? "✓ Pesan Tersalin" : "Salin Pesan"}
+                  <span className="ink" style={inkStyle("#4b3441")}>{copiedMessage ? "✓ Pesan Tersalin" : "Salin Pesan"}</span>
                 </button>
               </div>
-            </div>
+            </CardBox>
           </div>
         ) : (
           /* BULK GENERATOR */
           <div className="space-y-5">
-            <div className="rounded-[22px] border border-[#8b6a56]/20 bg-white p-6 shadow-sm">
-              <h2 className="font-playfair text-[17px] font-bold text-[#3a282d]">
+            <CardBox>
+              <h2 className="font-playfair ink text-[17px] font-bold" style={inkStyle("#3a282d")}>
                 Paste Daftar Nama Tamu (Satu Nama per Baris)
               </h2>
-              <p className="font-corm mt-1 text-[14px] text-[#6d5e62]">
+              <p className="font-corm ink mt-1 text-[14px]" style={inkStyle("#6d5e62")}>
                 Salin daftar nama dari Excel, buku catatan, atau chat WhatsApp dan tempel di kotak berikut:
               </p>
 
@@ -400,12 +421,12 @@ export default function GuestLinkGeneratorPage() {
               >
                 Perbarui Daftar ({bulkList.length} Tamu)
               </button>
-            </div>
+            </CardBox>
 
             {/* Bulk Table */}
-            <div className="rounded-[22px] border border-[#8b6a56]/20 bg-white p-6 shadow-sm">
+            <CardBox>
               <div className="flex items-center justify-between">
-                <h3 className="font-playfair text-[17px] font-bold text-[#3a282d]">
+                <h3 className="font-playfair ink text-[17px] font-bold" style={inkStyle("#3a282d")}>
                   Daftar Tautan Siap Kirim ({bulkList.length})
                 </h3>
               </div>
@@ -417,10 +438,10 @@ export default function GuestLinkGeneratorPage() {
                     className="flex flex-col justify-between gap-2.5 rounded-xl border border-[#e4dcce] bg-[#fbf9f6] p-3.5 sm:flex-row sm:items-center"
                   >
                     <div className="min-w-0">
-                      <p className="font-playfair text-[14px] font-bold text-[#322026]">
+                      <p className="font-playfair ink text-[14px] font-bold" style={inkStyle("#322026")}>
                         {idx + 1}. {item.name}
                       </p>
-                      <p className="truncate font-mono text-[11px] text-[#7a6458]">
+                      <p className="truncate font-mono text-[11px] ink" style={inkStyle("#7a6458")}>
                         {item.url}
                       </p>
                     </div>
@@ -441,9 +462,9 @@ export default function GuestLinkGeneratorPage() {
                             setTimeout(() => setCopiedBulkIdx(null), 1800);
                           }
                         }}
-                        className="font-pop rounded-lg border border-[#8b6a56]/40 bg-white px-2.5 py-1.5 text-[11px] font-medium text-[#4b3441] transition hover:bg-[#f6efe9] active:scale-95"
+                        className="font-pop rounded-lg border border-[#8b6a56]/40 bg-[#fdfcfb] px-2.5 py-1.5 text-[11px] font-medium transition hover:bg-[#f6efe9] active:scale-95"
                       >
-                        {copiedBulkIdx === idx ? "✓ Tersalin" : "Salin Pesan"}
+                        <span className="ink" style={inkStyle("#4b3441")}>{copiedBulkIdx === idx ? "✓ Tersalin" : "Salin Pesan"}</span>
                       </button>
 
                       <a
@@ -451,15 +472,15 @@ export default function GuestLinkGeneratorPage() {
                         target="_blank"
                         rel="noreferrer"
                         title="Buka pratinjau"
-                        className="font-pop rounded-lg bg-[#efe8df] px-2 py-1.5 text-[11px] font-medium text-[#4b3441] hover:bg-[#e4dcce]"
+                        className="font-pop rounded-lg bg-[#efe8df] px-2 py-1.5 text-[11px] font-medium hover:bg-[#e4dcce]"
                       >
-                        ↗
+                        <span className="ink" style={inkStyle("#4b3441")}>↗</span>
                       </a>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
+            </CardBox>
           </div>
         )}
       </div>

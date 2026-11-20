@@ -4,10 +4,12 @@ import React from "react";
 import { WEDDING_DATA } from "@/data/weddingData";
 import Reveal from "@/components/Reveal";
 import ButterflySvg from "@/components/Butterfly";
-import { AmbientMotes, EditorialFrame } from "@/components/LuxuryChrome";
+import { AmbientMotes, BRACKET_CARD_SVG_URI, EditorialFrame, PaperBackdrop, inkStyle, svgCardDataUri } from "@/components/LuxuryChrome";
 
 const W = 480;
 const H = 830;
+const POLAROID_HANDS_URI = svgCardDataUri("#f6f2ed");
+const POLAROID_PORTRAIT_URI = svgCardDataUri("#f7f3ee");
 const at = (x: number, y: number, w: number): React.CSSProperties => ({
   position: "absolute",
   left: `${(x / W) * 100}%`,
@@ -30,15 +32,7 @@ export default function HeroCollage() {
   const g = WEDDING_DATA;
   return (
     <section className="paper relative w-full overflow-hidden pb-3 pt-1">
-      {/* Luxury background layers: soft champagne/mauve wash + top vignette fading cleanly to transparent at bottom */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0"
-        aria-hidden="true"
-        style={{
-          background:
-            "radial-gradient(ellipse 90% 52% at 50% 24%, rgba(255,250,242,0.40) 0%, rgba(226,208,196,0.12) 52%, transparent 85%), linear-gradient(180deg, rgba(128,100,86,0.14) 0%, transparent 24%, transparent 100%), radial-gradient(circle at 16% 58%, rgba(150,110,120,0.11) 0%, transparent 42%), radial-gradient(circle at 86% 36%, rgba(196,162,120,0.13) 0%, transparent 40%)",
-        }}
-      />
+      <PaperBackdrop />
 
       {/* Delicate blind-letterpress botanical arch watermark fading smoothly toward the bottom */}
       <svg
@@ -103,27 +97,27 @@ export default function HeroCollage() {
 
         {/* hands polaroid with vertical SAVE THE DATE */}
         <Reveal immediate delay={0.62} style={{ ...at(84, 266, 168), zIndex: 5 }}>
-          <div className="relative bg-[#f6f2ed] drop-shadow-[0_5px_8px_rgba(40,25,35,.28)]" style={{ padding: `${cq(5)} ${cq(5)} ${cq(5)} ${cq(26)}` }}>
-            <img src="/images/ring-exchange.jpg" alt="" className="block w-full object-cover sepia-[.55] brightness-[.72] contrast-[1.15]" style={{ aspectRatio: "1.45/1", objectPosition: "center 55%" }} />
-            <span className="font-playfair absolute left-0 top-0 flex h-full items-center justify-center font-semibold uppercase text-[#2a2224]" style={{ width: cq(26), writingMode: "vertical-rl", transform: "rotate(180deg)", fontSize: cq(8.2), letterSpacing: "0.22em" }}>Save the date</span>
+          <div className="relative overflow-hidden bg-[#f6f2ed] drop-shadow-[0_5px_8px_rgba(40,25,35,.28)]" style={{ padding: `${cq(5)} ${cq(5)} ${cq(5)} ${cq(26)}` }}>
+            <img src={POLAROID_HANDS_URI} alt="" aria-hidden="true" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full object-fill select-none" />
+            <img src="/images/ring-exchange.jpg" alt="" className="relative z-10 block w-full object-cover sepia-[.55] brightness-[.72] contrast-[1.15]" style={{ aspectRatio: "1.45/1", objectPosition: "center 55%" }} />
+            <div className="font-playfair absolute left-0 top-0 z-10 flex h-full items-center justify-center font-semibold uppercase" style={{ width: cq(26), writingMode: "vertical-rl", transform: "rotate(180deg)", fontSize: cq(8.2), letterSpacing: "0.22em" }}>
+              <span className="ink" style={inkStyle("#2a2224")}>Save the date</span>
+            </div>
           </div>
         </Reveal>
 
         {/* save the date bracket card */}
         <Reveal immediate delay={0.76} style={{ ...at(246, 288, 208), zIndex: 6 }}>
           <div className="relative drop-shadow-[0_6px_10px_rgba(40,25,35,.25)]" style={{ aspectRatio: "208/262" }}>
-            <svg viewBox="0 0 208 262" className="absolute inset-0 h-full w-full">
-              <path d="M16 1.5H192A14.5 14.5 0 0 0 206.5 16V246A14.5 14.5 0 0 0 192 260.5H16A14.5 14.5 0 0 0 1.5 246V16A14.5 14.5 0 0 0 16 1.5Z" fill="#faf7f5" stroke="#5a3a47" strokeWidth="3" />
-              <path d="M18 8H190A10 10 0 0 0 200 18V244A10 10 0 0 0 190 254H18A10 10 0 0 0 8 244V18A10 10 0 0 0 18 8Z" fill="none" stroke="#5a3a47" strokeWidth="0.9" />
-            </svg>
-            <div className="absolute inset-0 flex flex-col items-center text-center text-[#2b2023]" style={{ paddingTop: cq(18) }}>
-              <span className="font-corm font-light" style={{ fontSize: cq(26), lineHeight: 1 }}>CT</span>
-              <span className="font-playfair font-bold uppercase" style={{ fontSize: cq(10.5), letterSpacing: "0.14em", marginTop: cq(8) }}>Save the Date</span>
-              <span className="font-playfair uppercase text-[#6b5a60]" style={{ fontSize: cq(5.4), letterSpacing: "0.2em", marginTop: cq(3) }}>For the wedding of</span>
-              <span className="font-script" style={{ fontSize: cq(50), lineHeight: 0.95, marginTop: cq(20) }}>{g.bride.name}</span>
-              <span className="font-script" style={{ fontSize: cq(50), lineHeight: 0.95, marginTop: cq(2) }}>{g.groom.name}</span>
-              <span className="font-playfair font-bold uppercase" style={{ fontSize: cq(7.6), letterSpacing: "0.1em", marginTop: cq(26) }}>28 November 2026</span>
-              <span className="font-playfair uppercase text-[#6b5a60]" style={{ fontSize: cq(4.4), letterSpacing: "0.12em", marginTop: cq(3) }}>Bekasi, Jawa Barat</span>
+            <img src={BRACKET_CARD_SVG_URI} alt="" aria-hidden="true" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full select-none" />
+            <div className="absolute inset-0 flex flex-col items-center text-center" style={{ paddingTop: cq(18) }}>
+              <span className="font-corm ink font-light" style={{ fontSize: cq(26), lineHeight: 1, ...inkStyle("#2b2023") }}>CT</span>
+              <span className="font-playfair ink font-bold uppercase" style={{ fontSize: cq(10.5), letterSpacing: "0.14em", marginTop: cq(8), ...inkStyle("#2b2023") }}>Save the Date</span>
+              <span className="font-playfair ink uppercase" style={{ fontSize: cq(5.4), letterSpacing: "0.2em", marginTop: cq(3), ...inkStyle("#6b5a60") }}>For the wedding of</span>
+              <span className="font-script ink ink-script" style={{ fontSize: cq(50), lineHeight: 0.95, marginTop: cq(20), ...inkStyle("#2b2023") }}>{g.bride.name}</span>
+              <span className="font-script ink ink-script" style={{ fontSize: cq(50), lineHeight: 0.95, marginTop: cq(2), ...inkStyle("#2b2023") }}>{g.groom.name}</span>
+              <span className="font-playfair ink font-bold uppercase" style={{ fontSize: cq(7.6), letterSpacing: "0.1em", marginTop: cq(26), ...inkStyle("#2b2023") }}>28 November 2026</span>
+              <span className="font-playfair ink uppercase" style={{ fontSize: cq(4.4), letterSpacing: "0.12em", marginTop: cq(3), ...inkStyle("#6b5a60") }}>Bekasi, Jawa Barat</span>
             </div>
           </div>
         </Reveal>
@@ -132,9 +126,9 @@ export default function HeroCollage() {
         <Reveal immediate delay={0.9} style={{ ...at(44, 366, 240), zIndex: 8 }}>
           <div className="relative drop-shadow-[0_5px_8px_rgba(40,25,35,.25)]">
             <img src="/images/v2/rococo_frame.png" alt="" className="w-full" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center font-corm font-semibold text-[#2a2124]" style={{ padding: `${cq(22)} ${cq(36)}`, fontSize: cq(7), lineHeight: 1.38 }}>
-              <span>&ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu istri-istri dari jenismu sendiri supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya di antara kamu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir.&rdquo;</span>
-              <span className="mt-[3%] font-bold">(QS. Ar-Rum: 21)</span>
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center font-corm font-semibold" style={{ padding: `${cq(22)} ${cq(36)}`, fontSize: cq(7), lineHeight: 1.38 }}>
+              <span className="ink" style={inkStyle("#2a2124")}>&ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu istri-istri dari jenismu sendiri supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya di antara kamu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir.&rdquo;</span>
+              <span className="ink mt-[3%] font-bold" style={inkStyle("#2a2124")}>(QS. Ar-Rum: 21)</span>
             </div>
           </div>
         </Reveal>
@@ -186,9 +180,12 @@ export default function HeroCollage() {
 
 function Polaroid({ src, label }: { src: string; label: string }) {
   return (
-    <div className="bg-[#f7f3ee] drop-shadow-[0_5px_7px_rgba(40,25,35,.3)]" style={{ padding: `${cq(5)} ${cq(5)} ${cq(18)}` }}>
-      <img src={src} alt={label} className="block w-full object-cover sepia-[.45] brightness-[.8] contrast-[1.1]" style={{ aspectRatio: "1/1" }} />
-      <p className="font-script text-center text-[#4a3a40]" style={{ fontSize: cq(20), marginTop: cq(5), lineHeight: 1 }}>{label}</p>
+    <div className="relative overflow-hidden bg-[#f7f3ee] drop-shadow-[0_5px_7px_rgba(40,25,35,.3)]" style={{ padding: `${cq(5)} ${cq(5)} ${cq(18)}` }}>
+      <img src={POLAROID_PORTRAIT_URI} alt="" aria-hidden="true" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full object-fill select-none" />
+      <img src={src} alt={label} className="relative z-10 block w-full object-cover sepia-[.45] brightness-[.8] contrast-[1.1]" style={{ aspectRatio: "1/1" }} />
+      <p className="font-script relative z-10 text-center" style={{ fontSize: cq(20), marginTop: cq(5), lineHeight: 1 }}>
+        <span className="ink ink-script inline-block" style={inkStyle("#4a3a40")}>{label}</span>
+      </p>
     </div>
   );
 }

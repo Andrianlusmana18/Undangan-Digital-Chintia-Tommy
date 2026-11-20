@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   other: {
     "color-scheme": "only light",
-    "supported-color-schemes": "only light light",
+    "darkreader-lock": "true",
   },
 };
 
@@ -34,8 +34,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="id" style={{ colorScheme: "only light" }}>
       <head>
-        <meta name="color-scheme" content="only light" />
-        <meta name="supported-color-schemes" content="only light light" />
+        <meta name="supported-color-schemes" content="light" />
+        <meta name="darkreader-lock" />
         <meta name="theme-color" content="#eae1d7" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

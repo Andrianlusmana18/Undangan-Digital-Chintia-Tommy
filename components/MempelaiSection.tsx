@@ -4,12 +4,13 @@ import React from "react";
 import { WEDDING_DATA } from "@/data/weddingData";
 import Reveal from "@/components/Reveal";
 import ButterflySvg from "@/components/Butterfly";
-import { EditorialDivider, EditorialFrame } from "@/components/LuxuryChrome";
+import { EditorialDivider, EditorialFrame, PaperBackdrop, inkStyle } from "@/components/LuxuryChrome";
 
 export default function MempelaiSection() {
   const g = WEDDING_DATA;
   return (
     <section className="paper relative px-5 pb-10 pt-2">
+      <PaperBackdrop />
       <EditorialFrame />
       <EditorialDivider className="relative z-10 mb-6" />
       <Reveal className="relative z-10 mx-auto w-full max-w-[410px]">
@@ -24,28 +25,30 @@ export default function MempelaiSection() {
               <p
                 dir="rtl"
                 lang="ar"
-                className="font-amiri select-none text-[#2d1f24]"
+                className="font-amiri ink ink-script select-none"
                 style={{
                   fontSize: "7.2cqw",
                   lineHeight: 1.25,
                   fontFeatureSettings: '"liga" 1, "calt" 1, "kern" 1',
+                  ...inkStyle("#2d1f24"),
                 }}
               >
                 بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
               </p>
 
-              <p className="font-playfair font-semibold tracking-wide text-[#2e1f25]" style={{ fontSize: "3.4cqw", marginTop: "1.4cqw" }}>
+              <p className="font-playfair ink font-semibold tracking-wide" style={{ fontSize: "3.4cqw", marginTop: "1.4cqw", ...inkStyle("#2e1f25") }}>
                 Assalamu&apos;alaikum Wr. Wb.
               </p>
 
               <p
-                className="font-corm font-medium text-[#46373d]"
+                className="font-corm ink font-medium"
                 style={{
                   fontSize: "3.1cqw",
                   lineHeight: 1.38,
                   marginTop: "0.8cqw",
                   maxWidth: "92%",
                   textWrap: "balance",
+                  ...inkStyle("#46373d"),
                 }}
               >
                 Tanpa mengurangi rasa hormat, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara pernikahan kami:
@@ -54,13 +57,13 @@ export default function MempelaiSection() {
 
             {/* Mempelai Wanita */}
             <div className="flex flex-col items-center w-full">
-              <h3 className="font-alex text-[#2b1b22]" style={{ fontSize: "9.6cqw", lineHeight: 1 }}>
+              <h3 className="font-alex ink ink-script" style={{ fontSize: "9.6cqw", lineHeight: 1, ...inkStyle("#2b1b22") }}>
                 {g.bride.fullName}
               </h3>
-              <p className="font-cinzel font-semibold uppercase text-[#735e65]" style={{ fontSize: "2.3cqw", letterSpacing: "0.22em", marginTop: "1.2cqw" }}>
+              <p className="font-cinzel ink font-semibold uppercase" style={{ fontSize: "2.3cqw", letterSpacing: "0.22em", marginTop: "1.2cqw", ...inkStyle("#735e65") }}>
                 Putri dari
               </p>
-              <p className="font-corm font-semibold italic text-[#2e2025]" style={{ fontSize: "3.8cqw", marginTop: "0.6cqw" }}>
+              <p className="font-corm ink ink-script font-semibold italic" style={{ fontSize: "3.8cqw", marginTop: "0.6cqw", ...inkStyle("#2e2025") }}>
                 {g.bride.father} &amp; {g.bride.mother}
               </p>
             </div>
@@ -68,7 +71,7 @@ export default function MempelaiSection() {
             {/* Divider & Ampersand */}
             <div className="flex items-center justify-center w-full" style={{ gap: "3cqw" }}>
               <span className="h-[1px] w-[20%] bg-gradient-to-r from-transparent to-[#8a6a56]/40" />
-              <span className="font-corm italic text-[#684b3d] select-none" style={{ fontSize: "6.5cqw", lineHeight: 1 }}>
+              <span className="font-corm ink ink-script italic select-none" style={{ fontSize: "6.5cqw", lineHeight: 1, ...inkStyle("#684b3d") }}>
                 &amp;
               </span>
               <span className="h-[1px] w-[20%] bg-gradient-to-l from-transparent to-[#8a6a56]/40" />
@@ -76,13 +79,13 @@ export default function MempelaiSection() {
 
             {/* Mempelai Pria */}
             <div className="flex flex-col items-center w-full">
-              <h3 className="font-alex text-[#2b1b22]" style={{ fontSize: "9.6cqw", lineHeight: 1 }}>
+              <h3 className="font-alex ink ink-script" style={{ fontSize: "9.6cqw", lineHeight: 1, ...inkStyle("#2b1b22") }}>
                 {g.groom.fullName}
               </h3>
-              <p className="font-cinzel font-semibold uppercase text-[#735e65]" style={{ fontSize: "2.3cqw", letterSpacing: "0.22em", marginTop: "1.2cqw" }}>
+              <p className="font-cinzel ink font-semibold uppercase" style={{ fontSize: "2.3cqw", letterSpacing: "0.22em", marginTop: "1.2cqw", ...inkStyle("#735e65") }}>
                 Putra dari
               </p>
-              <p className="font-corm font-semibold italic text-[#2e2025]" style={{ fontSize: "3.8cqw", marginTop: "0.6cqw" }}>
+              <p className="font-corm ink ink-script font-semibold italic" style={{ fontSize: "3.8cqw", marginTop: "0.6cqw", ...inkStyle("#2e2025") }}>
                 {g.groom.father} &amp; {g.groom.mother}
               </p>
             </div>

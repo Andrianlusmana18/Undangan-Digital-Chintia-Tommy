@@ -8,6 +8,7 @@ interface SplitTextProps {
   delay?: number; // ms delay between each word/letter
   animationType?: "letter" | "word";
   threshold?: number;
+  lockColor?: string;
 }
 
 /**
@@ -20,6 +21,7 @@ export default function SplitText({
   delay = 35,
   animationType = "letter",
   threshold = 0.15,
+  lockColor,
 }: SplitTextProps) {
   const containerRef = useRef<HTMLSpanElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -49,14 +51,17 @@ export default function SplitText({
   return (
     <span
       ref={containerRef}
-      className={`inline-block overflow-hidden ${className}`}
+      className={`inline-block ${lockColor ? "" : "overflow-hidden"} ${className}`}
       aria-label={text}
     >
       {items.map((item, index) => (
         <span
           key={index}
-          className="inline-block transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          className={`inline-block transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            lockColor ? "ink ink-script" : ""
+          }`}
           style={{
+            ...(lockColor ? { ["--ink-c" as string]: lockColor } : {}),
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? "translateY(0)" : "translateY(16px)",
             transitionDelay: `${index * delay}ms`,

@@ -3,11 +3,14 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { WEDDING_DATA, WishMessage } from "@/data/weddingData";
 import Reveal from "@/components/Reveal";
+import { inkStyle, svgCardDataUri } from "@/components/LuxuryChrome";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
+const RSVP_CARD_URI = svgCardDataUri("#efe9e6", 0.88);
+const WISH_CARD_URI = svgCardDataUri("#fbf8f5", 0.88);
 const ICON: Record<string, string> = { Hadir: "✅", Ragu: "❔", Maaf: "❌" };
-const lbl = "font-playfair mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.2em] text-[#4a3a3d]";
-const field = "w-full rounded-xl border border-white/70 bg-white/70 px-4 py-3 text-[13px] text-[#3a2d30] outline-none placeholder:text-[#8b8084] focus:ring-1 focus:ring-[#4a2a2c]";
+const lbl = "font-playfair ink mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.2em]";
+const field = "w-full rounded-xl border border-[#8b6a56]/25 bg-[#fdfbf9] px-4 py-3 text-[13px] text-[#3a2d30] outline-none placeholder:text-[#8b8084] focus:ring-1 focus:ring-[#4a2a2c]";
 
 function formatTimeAgo(dateStr?: string): string {
   if (!dateStr) return "Baru saja";
@@ -216,107 +219,120 @@ export default function RsvpSection({ initialGuestName = "" }: { initialGuestNam
     <section className="relative overflow-hidden px-4 py-10">
       <img src="/images/v2/dark_floral.jpg" alt="" className="absolute inset-0 -z-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-[#1c1214]/30" />
-      <Reveal className="relative mx-auto max-w-[420px] rounded-[34px] border border-white/50 bg-[#efe9e6]/60 px-6 pb-8 pt-8 shadow-[0_10px_40px_rgba(0,0,0,.35)] backdrop-blur-[10px]">
-        <h2 className="font-script text-center text-[50px] leading-none text-[#2b1d22]">Rsvp</h2>
-        <p className="font-corm mx-auto mt-4 max-w-[300px] text-center text-[14px] font-medium leading-snug text-[#3a2d30]">
-          Mohon konfirmasi kehadiran serta berikan doa dan harapan terbaik untuk hari istimewa kami.
-        </p>
-        <form onSubmit={submit} className="mt-7 space-y-4">
-          <div>
-            <label className={lbl}>Nama</label>
-            <input
-              className={field}
-              value={name}
-              maxLength={60}
-              onChange={(e) => {
-                setName(e.target.value);
-                if (formError) setFormError("");
-              }}
-              placeholder="Nama Anda (Maks. 60 huruf)"
-              required
-            />
-          </div>
-          <div>
-            <label className={lbl}>Kehadiran</label>
-            <select
-              className={field}
-              value={status}
-              onChange={(e) => {
-                setStatus(e.target.value);
-                if (formError) setFormError("");
-              }}
-              required
-            >
-              <option value="" disabled>Pilih salah satu</option>
-              <option value="Hadir">Hadir</option>
-              <option value="Ragu">Masih Ragu</option>
-              <option value="Maaf">Tidak Hadir</option>
-            </select>
-          </div>
-          <div>
-            <div className="flex items-center justify-between">
-              <label className={lbl}>Ucapan Doa</label>
-              <span className="font-corm text-[11px] text-[#7a6a70]">
-                {message.length}/350
-              </span>
+      <Reveal className="relative mx-auto max-w-[420px] overflow-hidden rounded-[34px] border border-white/50 px-6 pb-8 pt-8 shadow-[0_10px_40px_rgba(0,0,0,.35)] backdrop-blur-[10px]">
+        <img
+          src={RSVP_CARD_URI}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          className="pointer-events-none absolute inset-0 h-full w-full object-fill select-none"
+        />
+        <div className="relative z-10">
+          <h2 className="font-script ink ink-script text-center text-[50px] leading-none" style={inkStyle("#2b1d22")}>Rsvp</h2>
+          <p className="font-corm ink mx-auto mt-4 max-w-[300px] text-center text-[14px] font-medium leading-snug" style={inkStyle("#3a2d30")}>
+            Mohon konfirmasi kehadiran serta berikan doa dan harapan terbaik untuk hari istimewa kami.
+          </p>
+          <form onSubmit={submit} className="mt-7 space-y-4">
+            <div>
+              <label className={lbl} style={inkStyle("#4a3a3d")}>Nama</label>
+              <input
+                className={field}
+                value={name}
+                maxLength={60}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (formError) setFormError("");
+                }}
+                placeholder="Nama Anda (Maks. 60 huruf)"
+                required
+              />
             </div>
-            <textarea
-              rows={3}
-              maxLength={350}
-              className={`${field} font-mono`}
-              placeholder="Tulis ucapan atau doa..."
-              value={message}
-              onChange={(e) => {
-                setMessage(e.target.value);
-                if (formError) setFormError("");
-              }}
-              required
-            />
-          </div>
-          {formError && (
-            <p className="animate-fadeIn text-center text-[12px] font-medium text-[#8b2626]">
-              {formError}
-            </p>
-          )}
-          <button
-            type="submit"
-            disabled={submitting || cooldown > 0}
-            className="font-playfair w-full rounded-[3px] bg-[#4a2a2c] py-3.5 text-[12px] font-bold uppercase tracking-[0.25em] text-[#f0e6e2] transition active:scale-[.99] disabled:opacity-60"
-          >
-            {submitting
-              ? "Mengirim..."
-              : cooldown > 0
-              ? `Tunggu ${cooldown} Detik...`
-              : "Kirim"}
-          </button>
-          {toast && (
-            <p className="animate-fadeIn text-center text-[12px] font-medium text-[#2d5229]">
-              ✓ Terima kasih, ucapan Anda telah tersimpan.
-            </p>
-          )}
-        </form>
-
-        <h3 className="font-playfair mt-9 text-center text-[15px] font-semibold uppercase tracking-[0.14em] text-[#4a2a2c]">
-          Ucapan Tamu 💌
-        </h3>
-        <div className="mt-4 max-h-[340px] space-y-3 overflow-y-auto pr-1">
-          {wishes.length === 0 ? (
-            <div className="rounded-2xl border border-white/70 bg-white/35 px-5 py-6 text-center">
-              <p className="font-corm text-[15px] italic text-[#4a383c]">
-                Belum ada ucapan doa. Jadilah yang pertama memberikan doa restu untuk kedua mempelai ✨
-              </p>
+            <div>
+              <label className={lbl} style={inkStyle("#4a3a3d")}>Kehadiran</label>
+              <select
+                className={field}
+                value={status}
+                onChange={(e) => {
+                  setStatus(e.target.value);
+                  if (formError) setFormError("");
+                }}
+                required
+              >
+                <option value="" disabled>Pilih salah satu</option>
+                <option value="Hadir">Hadir</option>
+                <option value="Ragu">Masih Ragu</option>
+                <option value="Maaf">Tidak Hadir</option>
+              </select>
             </div>
-          ) : (
-            wishes.map((w) => (
-              <div key={w.id} className="rounded-2xl border border-white/80 bg-white/40 px-5 py-4">
-                <p className="font-playfair text-[14px] font-bold text-[#2f2226]">
-                  {w.name} <span className="text-[12px]">{ICON[w.status]}</span>
-                </p>
-                <p className="font-corm mt-2 text-[15px] font-medium text-[#3a2d30]">{w.message}</p>
-                <p className="font-corm mt-2 text-[11px] text-[#8a7e80]">{w.timeAgo}</p>
+            <div>
+              <div className="flex items-center justify-between">
+                <label className={lbl} style={inkStyle("#4a3a3d")}>Ucapan Doa</label>
+                <span className="font-corm ink text-[11px]" style={inkStyle("#7a6a70")}>
+                  {message.length}/350
+                </span>
               </div>
-            ))
-          )}
+              <textarea
+                rows={3}
+                maxLength={350}
+                className={`${field} font-mono`}
+                placeholder="Tulis ucapan atau doa..."
+                value={message}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                  if (formError) setFormError("");
+                }}
+                required
+              />
+            </div>
+            {formError && (
+              <p className="animate-fadeIn ink text-center text-[12px] font-medium" style={inkStyle("#8b2626")}>
+                {formError}
+              </p>
+            )}
+            <button
+              type="submit"
+              disabled={submitting || cooldown > 0}
+              className="font-playfair w-full rounded-[3px] bg-[#4a2a2c] py-3.5 text-[12px] font-bold uppercase tracking-[0.25em] text-[#f0e6e2] transition active:scale-[.99] disabled:opacity-60"
+            >
+              {submitting
+                ? "Mengirim..."
+                : cooldown > 0
+                ? `Tunggu ${cooldown} Detik...`
+                : "Kirim"}
+            </button>
+            {toast && (
+              <p className="animate-fadeIn ink text-center text-[12px] font-medium" style={inkStyle("#2d5229")}>
+                ✓ Terima kasih, ucapan Anda telah tersimpan.
+              </p>
+            )}
+          </form>
+
+          <h3 className="font-playfair mt-9 text-center text-[15px] font-semibold uppercase tracking-[0.14em]">
+            <span className="ink" style={inkStyle("#4a2a2c")}>Ucapan Tamu</span> <span>💌</span>
+          </h3>
+          <div className="mt-4 max-h-[340px] space-y-3 overflow-y-auto pr-1">
+            {wishes.length === 0 ? (
+              <div className="relative overflow-hidden rounded-2xl border border-[#8b6a56]/20 px-5 py-6 text-center">
+                <img src={WISH_CARD_URI} alt="" aria-hidden="true" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full object-fill select-none" />
+                <p className="font-corm relative z-10 text-[15px] italic">
+                  <span className="ink" style={inkStyle("#4a383c")}>Belum ada ucapan doa. Jadilah yang pertama memberikan doa restu untuk kedua mempelai</span> <span>✨</span>
+                </p>
+              </div>
+            ) : (
+              wishes.map((w) => (
+                <div key={w.id} className="relative overflow-hidden rounded-2xl border border-[#8b6a56]/20 px-5 py-4">
+                  <img src={WISH_CARD_URI} alt="" aria-hidden="true" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full object-fill select-none" />
+                  <div className="relative z-10">
+                    <p className="font-playfair text-[14px] font-bold">
+                      <span className="ink" style={inkStyle("#2f2226")}>{w.name}</span> <span className="text-[12px]">{ICON[w.status]}</span>
+                    </p>
+                    <p className="font-corm ink mt-2 text-[15px] font-medium" style={inkStyle("#3a2d30")}>{w.message}</p>
+                    <p className="font-corm ink mt-2 text-[11px]" style={inkStyle("#8a7e80")}>{w.timeAgo}</p>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </Reveal>
     </section>

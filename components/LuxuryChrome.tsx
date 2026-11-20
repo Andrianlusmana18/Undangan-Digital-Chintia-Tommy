@@ -2,6 +2,49 @@
 
 import React, { useEffect, useState } from "react";
 
+/** Generates a lightweight inline SVG rect image data-URI immune to browser Force Dark darkening. */
+export function svgCardDataUri(fill: string, opacity = 1, rx = 0): string {
+  const safeFill = encodeURIComponent(fill);
+  const op = opacity < 1 ? ` fill-opacity='${opacity}'` : "";
+  const r = rx > 0 ? ` rx='${rx}'` : "";
+  return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' preserveAspectRatio='none'><rect width='200' height='200'${r} fill='${safeFill}'${op}/></svg>`;
+}
+
+/** Bracketed Save-the-Date card vector rendered via <img> so cream card fill never darkens. */
+export const BRACKET_CARD_SVG_URI =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 208 262"><path d="M16 1.5H192A14.5 14.5 0 0 0 206.5 16V246A14.5 14.5 0 0 0 192 260.5H16A14.5 14.5 0 0 0 1.5 246V16A14.5 14.5 0 0 0 16 1.5Z" fill="#faf7f5" stroke="#5a3a47" stroke-width="3"/><path d="M18 8H190A10 10 0 0 0 200 18V244A10 10 0 0 0 190 254H18A10 10 0 0 0 8 244V18A10 10 0 0 0 18 8Z" fill="none" stroke="#5a3a47" stroke-width="0.9"/></svg>`
+  );
+
+/** Returns CSS custom property style for `.ink` force-dark-proof text coloring. */
+export function inkStyle(hex: string): React.CSSProperties {
+  return { ["--ink-c" as string]: hex };
+}
+
+const PAPER_BASE_URI = svgCardDataUri("#eae1d7");
+const NAV_PILL_BG_URI = svgCardDataUri("#f7f4f0", 0.94, 40);
+
+/** Warm cotton-linen paper <img> backdrop immune to Samsung Internet & Chromium Force Dark. */
+export function PaperBackdrop() {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden select-none" aria-hidden="true">
+      <img
+        src={PAPER_BASE_URI}
+        alt=""
+        draggable={false}
+        className="absolute inset-0 h-full w-full object-fill"
+      />
+      <img
+        src="/images/v2/paper_texture.jpg"
+        alt=""
+        draggable={false}
+        className="absolute inset-0 h-full w-full object-cover opacity-[0.72]"
+      />
+    </div>
+  );
+}
+
 const NAV_ITEMS = [
   { id: "sec-hero", label: "Awal" },
   { id: "sec-mempelai", label: "Mempelai" },
@@ -52,29 +95,40 @@ export function ScrollProgressAndNav() {
       </div>
 
       {/* Floating frosted quick-navigation pill */}
-      <nav
-        aria-label="Navigasi bagian undangan"
-        className={`fixed bottom-5 left-4 z-40 flex max-w-[calc(100vw-88px)] items-center gap-0.5 overflow-x-auto rounded-full border border-[#8b6a56]/25 bg-[#f7f4f0]/88 px-2 py-1.5 shadow-[0_6px_20px_rgba(40,25,30,.14)] backdrop-blur-md transition-all duration-300 ${
+      <div
+        className={`fixed bottom-5 left-4 z-40 max-w-[calc(100vw-88px)] overflow-hidden rounded-full border border-[#8b6a56]/25 shadow-[0_6px_20px_rgba(40,25,30,.14)] backdrop-blur-md transition-all duration-300 ${
           showNav ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
         }`}
       >
-        {NAV_ITEMS.map((item) => {
-          const isActive = activeId === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => jump(item.id)}
-              className={`font-pop shrink-0 rounded-full px-2.5 py-1 text-[10px] font-medium tracking-wide transition ${
-                isActive
-                  ? "bg-[#4b3441] text-[#f8f4ef] shadow-sm"
-                  : "text-[#5a4a4e] hover:bg-[#4b3441]/10"
-              }`}
-            >
-              {item.label}
-            </button>
-          );
-        })}
-      </nav>
+        <img
+          src={NAV_PILL_BG_URI}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          className="pointer-events-none absolute inset-0 h-full w-full object-fill select-none"
+        />
+        <nav
+          aria-label="Navigasi bagian undangan"
+          className="relative z-10 flex items-center gap-0.5 overflow-x-auto px-2 py-1.5"
+        >
+          {NAV_ITEMS.map((item) => {
+            const isActive = activeId === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => jump(item.id)}
+                className={`font-pop shrink-0 rounded-full px-2.5 py-1 text-[10px] font-medium tracking-wide transition ${
+                  isActive
+                    ? "bg-[#4b3441] text-[#f8f4ef] shadow-sm"
+                    : "hover:bg-[#4b3441]/10"
+                }`}
+              >
+                {isActive ? item.label : <span className="ink" style={inkStyle("#5a4a4e")}>{item.label}</span>}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
     </>
   );
 }

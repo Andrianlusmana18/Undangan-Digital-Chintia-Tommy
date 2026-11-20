@@ -15,7 +15,9 @@ import RsvpSection from "@/components/RsvpSection";
 import WeddingGiftSection from "@/components/WeddingGiftSection";
 import ClosingSection from "@/components/ClosingSection";
 import AudioButton from "@/components/AudioButton";
-import { ScrollProgressAndNav } from "@/components/LuxuryChrome";
+import { ScrollProgressAndNav, svgCardDataUri } from "@/components/LuxuryChrome";
+
+const OUTER_BG_URI = svgCardDataUri("#cfc3b7");
 
 function App() {
   const sp = useSearchParams();
@@ -83,11 +85,18 @@ function App() {
   return (
     <div
       style={{ colorScheme: "only light" }}
-      className={`flex min-h-screen justify-center bg-gradient-to-b from-[#d8cfc5] via-[#cfc3b7] to-[#c4b7aa] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}
+      className={`relative flex min-h-screen justify-center bg-[#cfc3b7] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}
     >
+      <img
+        src={OUTER_BG_URI}
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+        className="pointer-events-none fixed inset-0 h-full w-full object-fill select-none"
+      />
       <main
         style={{ colorScheme: "only light" }}
-        className={`relative w-full max-w-[480px] bg-[#eae1d7] shadow-[0_0_50px_rgba(38,24,28,.18)] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}
+        className={`relative z-10 w-full max-w-[480px] bg-[#eae1d7] shadow-[0_0_50px_rgba(38,24,28,.18)] ${!opened ? "h-[100dvh] max-h-[100dvh] overflow-hidden" : ""}`}
       >
         {/* Invitation content mounts immediately when clicked so doves & silk curtains unveil HeroCollage directly */}
         {stage !== "cover" && (

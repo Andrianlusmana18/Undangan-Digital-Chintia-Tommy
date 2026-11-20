@@ -5,7 +5,7 @@ import { WEDDING_DATA } from "@/data/weddingData";
 import { copyToClipboard } from "@/lib/clipboard";
 import Reveal from "@/components/Reveal";
 import ButterflySvg from "@/components/Butterfly";
-import { EditorialFrame } from "@/components/LuxuryChrome";
+import { EditorialFrame, PaperBackdrop, inkStyle } from "@/components/LuxuryChrome";
 
 export default function WeddingGiftSection() {
   const [copied, setCopied] = useState<number | null>(null);
@@ -27,15 +27,8 @@ export default function WeddingGiftSection() {
 
   return (
     <section className="paper relative overflow-hidden px-6 pb-14 pt-16 text-center">
+      <PaperBackdrop />
       <EditorialFrame topCorners topCap />
-      <div
-        className="pointer-events-none absolute inset-0 z-0"
-        aria-hidden="true"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255,251,245,0.4) 0%, transparent 74%)",
-        }}
-      />
       <img
         src="/images/v2/botanical_sprig.png"
         alt=""
@@ -46,8 +39,8 @@ export default function WeddingGiftSection() {
         <ButterflySvg className="w-full drop-shadow-[0_3px_4px_rgba(0,0,0,.3)]" />
       </div>
       <Reveal className="relative z-10">
-        <h2 className="font-script text-[48px] leading-none text-[#2f2226]">Wedding Gift</h2>
-        <p className="font-corm mx-auto mt-5 max-w-[350px] text-[17px] font-medium leading-snug text-[#2f2528]">
+        <h2 className="font-script ink ink-script text-[48px] leading-none" style={inkStyle("#2f2226")}>Wedding Gift</h2>
+        <p className="font-corm ink mx-auto mt-5 max-w-[350px] text-[17px] font-medium leading-snug" style={inkStyle("#2f2528")}>
           Kehadiran dan doa restu Anda sudah sangat berarti bagi kami. Dengan segala kerendahan hati, bagi Bapak/Ibu/Saudara/i yang berkenan memberikan kado pernikahan, dapat disalurkan melalui rekening berikut:
         </p>
       </Reveal>

@@ -2,7 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import Reveal from "@/components/Reveal";
-import { EditorialDivider, EditorialFrame } from "@/components/LuxuryChrome";
+import { EditorialDivider, EditorialFrame, PaperBackdrop, inkStyle, svgCardDataUri } from "@/components/LuxuryChrome";
+
+const GALLERY_CARD_URI = svgCardDataUri("#fbf9f5");
+const GALLERY_TAPE_URI = svgCardDataUri("#e6dcc8", 0.85);
 
 interface PhotoItem {
   src: string;
@@ -85,18 +88,25 @@ function PolaroidCard({
         style={{ transform: `rotate(${photo.rotate})` }}
         className="group relative block w-full rounded-[2px] bg-[#fbf9f5] p-[8px] pt-[14px] pb-[22px] text-left shadow-[0_10px_24px_-6px_rgba(45,30,25,0.25),0_2px_6px_rgba(45,30,25,0.12)] ring-1 ring-[#8a6a56]/15 transition-all duration-500 ease-out hover:z-20 hover:rotate-0 hover:scale-[1.03] hover:shadow-[0_18px_36px_-8px_rgba(45,30,25,0.32)]"
       >
+        <img
+          src={GALLERY_CARD_URI}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          className="pointer-events-none absolute inset-0 h-full w-full rounded-[2px] object-fill select-none"
+        />
         {/* Washi / Masking Tape Accent */}
         {photo.tape === "top-center" && (
-          <span className="pointer-events-none absolute -top-[7px] left-1/2 z-10 h-[18px] w-[62px] -translate-x-1/2 -rotate-[1.5deg] bg-[#e6dcc8]/80 shadow-[0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-[1px]" />
+          <img src={GALLERY_TAPE_URI} alt="" aria-hidden="true" draggable={false} className="pointer-events-none absolute -top-[7px] left-1/2 z-10 h-[18px] w-[62px] -translate-x-1/2 -rotate-[1.5deg] object-fill shadow-[0_1px_2px_rgba(0,0,0,0.08)]" />
         )}
         {photo.tape === "top-left" && (
-          <span className="pointer-events-none absolute -top-[6px] left-[14px] z-10 h-[16px] w-[44px] -rotate-[14deg] bg-[#e6dcc8]/80 shadow-[0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-[1px]" />
+          <img src={GALLERY_TAPE_URI} alt="" aria-hidden="true" draggable={false} className="pointer-events-none absolute -top-[6px] left-[14px] z-10 h-[16px] w-[44px] -rotate-[14deg] object-fill shadow-[0_1px_2px_rgba(0,0,0,0.08)]" />
         )}
         {photo.tape === "top-right" && (
-          <span className="pointer-events-none absolute -top-[6px] right-[14px] z-10 h-[16px] w-[44px] rotate-[14deg] bg-[#e6dcc8]/80 shadow-[0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-[1px]" />
+          <img src={GALLERY_TAPE_URI} alt="" aria-hidden="true" draggable={false} className="pointer-events-none absolute -top-[6px] right-[14px] z-10 h-[16px] w-[44px] rotate-[14deg] object-fill shadow-[0_1px_2px_rgba(0,0,0,0.08)]" />
         )}
 
-        <div className="overflow-hidden bg-[#ece6dd] ring-1 ring-[#8a6a56]/10">
+        <div className="relative z-10 overflow-hidden bg-[#ece6dd] ring-1 ring-[#8a6a56]/10">
           <img
             src={photo.src}
             alt={photo.label}
@@ -110,8 +120,8 @@ function PolaroidCard({
           />
         </div>
 
-        <p className="font-corm mt-2 truncate text-center text-[13px] font-medium italic tracking-wide text-[#5a453e]">
-          {photo.label}
+        <p className="font-corm relative z-10 mt-2 truncate text-center text-[13px] font-medium italic tracking-wide">
+          <span className="ink ink-script" style={inkStyle("#5a453e")}>{photo.label}</span>
         </p>
       </button>
     </Reveal>
@@ -145,15 +155,8 @@ export default function GallerySection() {
 
   return (
     <section className="paper relative overflow-hidden px-6 pb-16 pt-4">
+      <PaperBackdrop />
       <EditorialFrame bottomCorners bottomCap />
-      <div
-        className="pointer-events-none absolute inset-0 z-0"
-        aria-hidden="true"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 50% at 50% 45%, rgba(255,251,245,0.32) 0%, transparent 74%)",
-        }}
-      />
 
       {/* Subtle botanical background accents */}
       <img
@@ -173,13 +176,13 @@ export default function GallerySection() {
 
       {/* Section Header */}
       <Reveal className="relative z-10 mx-auto max-w-[400px] text-center">
-        <h2 className="font-alex text-[44px] leading-none text-[#332229]">Our Moments</h2>
-        <p className="font-cinzel mt-1 text-[10px] font-semibold uppercase tracking-[0.26em] text-[#7a645a]">
+        <h2 className="font-alex ink ink-script text-[44px] leading-none" style={inkStyle("#332229")}>Our Moments</h2>
+        <p className="font-cinzel ink mt-1 text-[10px] font-semibold uppercase tracking-[0.26em]" style={inkStyle("#7a645a")}>
           Potret Kebersamaan
         </p>
         <div className="mt-2.5 flex items-center justify-center">
           <span className="h-[1px] w-8 bg-[#8a6a56]/40" />
-          <span className="mx-2 text-[11px] text-[#7d5b4a]">✦</span>
+          <span className="ink mx-2 text-[11px]" style={inkStyle("#7d5b4a")}>✦</span>
           <span className="h-[1px] w-8 bg-[#8a6a56]/40" />
         </div>
       </Reveal>
